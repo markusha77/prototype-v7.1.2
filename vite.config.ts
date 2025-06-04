@@ -8,6 +8,7 @@ export default defineConfig({
     exclude: [],
   },
   server: {
+    host: "127.0.0.1",
     hmr: {
       overlay: false,
     },

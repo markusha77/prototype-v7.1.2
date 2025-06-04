@@ -1,33 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import { 
-  ArrowLeft, 
-  Camera, 
-  Plus, 
-  X, 
-  Save, 
-  Globe, 
-  Lock, 
-  Users, 
-  Shield, 
-  Trash2, 
-  UserMinus,
-  ExternalLink,
-  Image as ImageIcon,
-  Calendar,
+import {
+  ArrowLeft,
   Briefcase,
-  Settings,
-  Eye,
-  EyeOff,
+  Calendar,
+  Camera,
   Check,
   Clock,
-  UserPlus,
+  ExternalLink,
+  Eye,
+  EyeOff,
+  Globe,
+  Image as ImageIcon,
+  Lock,
   MoreVertical,
-  UserCheck
-} from 'lucide-react'
-import { Navbar } from './Navbar'
-import useContentLoader from '../../hooks/useContentLoader'
-import LoadingIndicator from '../common/LoadingIndicator'
+  Plus,
+  Save,
+  Settings,
+  Shield,
+  Trash2,
+  UserCheck,
+  UserMinus,
+  UserPlus,
+  Users,
+  X,
+} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
+import useContentLoader from '../../hooks/useContentLoader';
+import LoadingIndicator from '../common/LoadingIndicator';
+import { Navbar } from './Navbar';
 
 interface CommunityEditData {
   id: string;
@@ -86,25 +87,28 @@ interface CommunityEditData {
 const mockCommunityData: CommunityEditData = {
   id: '1',
   name: 'EcoTech Innovators',
-  description: 'A community of developers, designers, and entrepreneurs building technology solutions for environmental sustainability.',
-  longDescription: 'EcoTech Innovators brings together passionate individuals from diverse backgrounds who share a common goal: leveraging technology to address environmental challenges. Our community focuses on developing sustainable solutions, sharing knowledge, and collaborating on projects that make a positive impact on our planet.',
+  description:
+    'A community of developers, designers, and entrepreneurs building technology solutions for environmental sustainability.',
+  longDescription:
+    'EcoTech Innovators brings together passionate individuals from diverse backgrounds who share a common goal: leveraging technology to address environmental challenges. Our community focuses on developing sustainable solutions, sharing knowledge, and collaborating on projects that make a positive impact on our planet.',
   logo: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
-  coverImage: 'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80',
+  coverImage:
+    'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80',
   website: 'https://ecotechinnovators.example.com',
   isPrivate: false,
   socialLinks: {
     twitter: 'https://twitter.com/ecotechinnovators',
     linkedin: 'https://linkedin.com/company/ecotechinnovators',
-    github: 'https://github.com/ecotechinnovators'
+    github: 'https://github.com/ecotechinnovators',
   },
   communityLinks: [
     { id: '1', title: 'Community Guidelines', url: 'https://example.com/guidelines' },
-    { id: '2', title: 'Resource Library', url: 'https://example.com/resources' }
+    { id: '2', title: 'Resource Library', url: 'https://example.com/resources' },
   ],
   photoGallery: [
     'https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
   ],
   upcomingEvents: [
     {
@@ -112,66 +116,76 @@ const mockCommunityData: CommunityEditData = {
       title: 'Green Tech Hackathon',
       description: 'Join us for a 48-hour hackathon focused on sustainable technology solutions.',
       date: '2024-02-15',
-      image: 'https://images.unsplash.com/photo-1540304453527-62f979142a17?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
-    }
+      image:
+        'https://images.unsplash.com/photo-1540304453527-62f979142a17?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    },
   ],
   featuredProjects: [
     {
       id: '1',
       title: 'Solar Panel Optimizer',
       description: 'AI-powered system to optimize solar panel efficiency',
-      image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      author: 'Elena Rodriguez'
-    }
+      image:
+        'https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      author: 'Elena Rodriguez',
+    },
   ],
   members: [
     {
       id: '1',
       name: 'Elena Rodriguez',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
       role: 'admin',
-      joinedAt: '2023-01-15'
+      joinedAt: '2023-01-15',
     },
     {
       id: '2',
       name: 'Marcus Chen',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
       role: 'moderator',
-      joinedAt: '2023-02-20'
+      joinedAt: '2023-02-20',
     },
     {
       id: '3',
       name: 'Sarah Johnson',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
+      avatar:
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
       role: 'member',
-      joinedAt: '2023-03-10'
-    }
+      joinedAt: '2023-03-10',
+    },
   ],
   pendingRequests: [
     {
       id: '1',
       name: 'Alex Thompson',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
+      avatar:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
       bio: 'Full-stack developer passionate about sustainable technology and clean energy solutions.',
       requestedAt: '2024-01-20',
-      message: 'Hi! I\'m really excited about joining this community. I\'ve been working on renewable energy projects for the past 3 years and would love to contribute and collaborate with like-minded individuals.'
+      message:
+        "Hi! I'm really excited about joining this community. I've been working on renewable energy projects for the past 3 years and would love to contribute and collaborate with like-minded individuals.",
     },
     {
       id: '2',
       name: 'Maya Patel',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
+      avatar:
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
       bio: 'Environmental scientist and data analyst specializing in climate change research.',
       requestedAt: '2024-01-18',
-      message: 'I have extensive experience in environmental data analysis and would like to contribute to projects that combine technology with environmental impact.'
+      message:
+        'I have extensive experience in environmental data analysis and would like to contribute to projects that combine technology with environmental impact.',
     },
     {
       id: '3',
       name: 'David Kim',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
+      avatar:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80',
       bio: 'UX/UI designer focused on creating user-friendly interfaces for green tech applications.',
-      requestedAt: '2024-01-15'
-    }
-  ]
+      requestedAt: '2024-01-15',
+    },
+  ],
 };
 
 const CommunityEditPage: React.FC = () => {
@@ -182,15 +196,11 @@ const CommunityEditPage: React.FC = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  
-  const { 
-    isLoading, 
-    contentStyle, 
-    prepareContent 
-  } = useContentLoader({
+
+  const { isLoading, contentStyle, prepareContent } = useContentLoader({
     scrollToTop: true,
     loadingDelay: 200,
-    fadeInDuration: 300
+    fadeInDuration: 300,
   });
 
   useEffect(() => {
@@ -218,20 +228,20 @@ const CommunityEditPage: React.FC = () => {
   };
 
   const handleInputChange = (field: string, value: any) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
     setHasChanges(true);
   };
 
   const handleSocialLinkChange = (platform: string, url: string) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
       socialLinks: {
         ...prev.socialLinks,
-        [platform]: url
-      }
+        [platform]: url,
+      },
     }));
     setHasChanges(true);
   };
@@ -240,72 +250,73 @@ const CommunityEditPage: React.FC = () => {
     const newLink = {
       id: Date.now().toString(),
       title: '',
-      url: ''
+      url: '',
     };
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      communityLinks: [...prev.communityLinks, newLink]
+      communityLinks: [...prev.communityLinks, newLink],
     }));
     setHasChanges(true);
   };
 
   const removeCommunityLink = (id: string) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      communityLinks: prev.communityLinks.filter(link => link.id !== id)
+      communityLinks: prev.communityLinks.filter((link) => link.id !== id),
     }));
     setHasChanges(true);
   };
 
   const updateCommunityLink = (id: string, field: string, value: string) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      communityLinks: prev.communityLinks.map(link =>
-        link.id === id ? { ...link, [field]: value } : link
-      )
+      communityLinks: prev.communityLinks.map((link) =>
+        link.id === id ? { ...link, [field]: value } : link,
+      ),
     }));
     setHasChanges(true);
   };
 
   const addPhotoToGallery = () => {
-    const newPhoto = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
-    setCommunityData(prev => ({
+    const newPhoto =
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
+    setCommunityData((prev) => ({
       ...prev,
-      photoGallery: [...prev.photoGallery, newPhoto]
+      photoGallery: [...prev.photoGallery, newPhoto],
     }));
     setHasChanges(true);
   };
 
   const removePhotoFromGallery = (index: number) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      photoGallery: prev.photoGallery.filter((_, i) => i !== index)
+      photoGallery: prev.photoGallery.filter((_, i) => i !== index),
     }));
     setHasChanges(true);
   };
 
   const kickMember = (memberId: string) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      members: prev.members.filter(member => member.id !== memberId)
+      members: prev.members.filter((member) => member.id !== memberId),
     }));
     setHasChanges(true);
     setOpenDropdown(null);
   };
 
   const assignModerator = (memberId: string) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      members: prev.members.map(member =>
-        member.id === memberId ? { ...member, role: 'moderator' as const } : member
-      )
+      members: prev.members.map((member) =>
+        member.id === memberId ? { ...member, role: 'moderator' as const } : member,
+      ),
     }));
     setHasChanges(true);
     setOpenDropdown(null);
   };
 
   const approveRequest = (requestId: string) => {
-    const request = communityData.pendingRequests.find(req => req.id === requestId);
+    const request = communityData.pendingRequests.find((req) => req.id === requestId);
     if (request) {
       // Add to members
       const newMember = {
@@ -313,22 +324,22 @@ const CommunityEditPage: React.FC = () => {
         name: request.name,
         avatar: request.avatar,
         role: 'member' as const,
-        joinedAt: new Date().toISOString().split('T')[0]
+        joinedAt: new Date().toISOString().split('T')[0],
       };
-      
-      setCommunityData(prev => ({
+
+      setCommunityData((prev) => ({
         ...prev,
         members: [...prev.members, newMember],
-        pendingRequests: prev.pendingRequests.filter(req => req.id !== requestId)
+        pendingRequests: prev.pendingRequests.filter((req) => req.id !== requestId),
       }));
       setHasChanges(true);
     }
   };
 
   const rejectRequest = (requestId: string) => {
-    setCommunityData(prev => ({
+    setCommunityData((prev) => ({
       ...prev,
-      pendingRequests: prev.pendingRequests.filter(req => req.id !== requestId)
+      pendingRequests: prev.pendingRequests.filter((req) => req.id !== requestId),
     }));
     setHasChanges(true);
   };
@@ -342,11 +353,7 @@ const CommunityEditPage: React.FC = () => {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
         <div className="flex items-center justify-center h-[calc(100vh-64px)]">
-          <LoadingIndicator 
-            size="md" 
-            color="indigo" 
-            message="Loading community settings..." 
-          />
+          <LoadingIndicator size="md" color="indigo" message="Loading community settings..." />
         </div>
       </div>
     );
@@ -359,20 +366,20 @@ const CommunityEditPage: React.FC = () => {
     { id: 'gallery', label: 'Photo Gallery', icon: ImageIcon },
     { id: 'events', label: 'Events', icon: Calendar },
     { id: 'projects', label: 'Projects', icon: Briefcase },
-    { id: 'members', label: 'Members & Security', icon: Shield }
+    { id: 'members', label: 'Members & Security', icon: Shield },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <div style={contentStyle}>
         {/* Header */}
         <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="cb-wrapper py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <Link 
+                <Link
                   to={`/community/${communityId}`}
                   className="group inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-0.5 font-semibold mr-4"
                 >
@@ -381,7 +388,7 @@ const CommunityEditPage: React.FC = () => {
                 </Link>
                 <h1 className="text-3xl font-bold text-gray-900 ml-4">Edit Community</h1>
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 {hasChanges && (
                   <span className="text-sm text-orange-600 font-medium">Unsaved changes</span>
@@ -400,16 +407,17 @@ const CommunityEditPage: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="cb-wrapper py-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Navigation */}
             <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow-sm p-4 sticky top-8">
                 <nav className="space-y-2">
-                  {sidebarSections.map(section => {
+                  {sidebarSections.map((section) => {
                     const Icon = section.icon;
-                    const hasPendingRequests = section.id === 'members' && communityData.pendingRequests.length > 0;
-                    
+                    const hasPendingRequests =
+                      section.id === 'members' && communityData.pendingRequests.length > 0;
+
                     return (
                       <button
                         key={section.id}
@@ -441,13 +449,15 @@ const CommunityEditPage: React.FC = () => {
                 {activeSection === 'basic' && (
                   <div className="space-y-6">
                     <h2 className="text-xl font-bold text-gray-900">Basic Information</h2>
-                    
+
                     {/* Cover Image */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Cover Image
+                      </label>
                       <div className="relative">
-                        <img 
-                          src={communityData.coverImage} 
+                        <img
+                          src={communityData.coverImage}
                           alt="Cover"
                           className="w-full h-48 object-cover rounded-lg"
                         />
@@ -459,11 +469,13 @@ const CommunityEditPage: React.FC = () => {
 
                     {/* Logo */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Community Logo</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Community Logo
+                      </label>
                       <div className="flex items-center space-x-4">
                         <div className="relative">
-                          <img 
-                            src={communityData.logo} 
+                          <img
+                            src={communityData.logo}
                             alt="Logo"
                             className="h-20 w-20 rounded-lg object-cover"
                           />
@@ -480,7 +492,9 @@ const CommunityEditPage: React.FC = () => {
 
                     {/* Community Name */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Community Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Community Name
+                      </label>
                       <input
                         type="text"
                         value={communityData.name}
@@ -491,7 +505,9 @@ const CommunityEditPage: React.FC = () => {
 
                     {/* Short Description */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Short Description</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Short Description
+                      </label>
                       <textarea
                         value={communityData.description}
                         onChange={(e) => handleInputChange('description', e.target.value)}
@@ -503,7 +519,9 @@ const CommunityEditPage: React.FC = () => {
 
                     {/* Long Description */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">About Section</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        About Section
+                      </label>
                       <textarea
                         value={communityData.longDescription}
                         onChange={(e) => handleInputChange('longDescription', e.target.value)}
@@ -515,7 +533,9 @@ const CommunityEditPage: React.FC = () => {
 
                     {/* Website */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Website URL</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Website URL
+                      </label>
                       <input
                         type="url"
                         value={communityData.website}
@@ -527,7 +547,9 @@ const CommunityEditPage: React.FC = () => {
 
                     {/* Privacy Setting */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Community Privacy</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Community Privacy
+                      </label>
                       <div className="space-y-3">
                         <label className="flex items-center">
                           <input
@@ -542,10 +564,12 @@ const CommunityEditPage: React.FC = () => {
                               <Globe className="h-4 w-4 mr-2 text-green-600" />
                               <span className="font-medium text-gray-900">Public</span>
                             </div>
-                            <p className="text-sm text-gray-500">Anyone can see and join this community</p>
+                            <p className="text-sm text-gray-500">
+                              Anyone can see and join this community
+                            </p>
                           </div>
                         </label>
-                        
+
                         <label className="flex items-center">
                           <input
                             type="radio"
@@ -559,7 +583,9 @@ const CommunityEditPage: React.FC = () => {
                               <Lock className="h-4 w-4 mr-2 text-orange-600" />
                               <span className="font-medium text-gray-900">Private</span>
                             </div>
-                            <p className="text-sm text-gray-500">Only members can see content, requires approval to join</p>
+                            <p className="text-sm text-gray-500">
+                              Only members can see content, requires approval to join
+                            </p>
                           </div>
                         </label>
                       </div>
@@ -571,20 +597,26 @@ const CommunityEditPage: React.FC = () => {
                 {activeSection === 'social' && (
                   <div className="space-y-6">
                     <h2 className="text-xl font-bold text-gray-900">Social Links</h2>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {Object.entries({
                         twitter: 'Twitter',
                         linkedin: 'LinkedIn',
                         github: 'GitHub',
                         discord: 'Discord',
-                        instagram: 'Instagram'
+                        instagram: 'Instagram',
                       }).map(([platform, label]) => (
                         <div key={platform}>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            {label}
+                          </label>
                           <input
                             type="url"
-                            value={communityData.socialLinks[platform as keyof typeof communityData.socialLinks] || ''}
+                            value={
+                              communityData.socialLinks[
+                                platform as keyof typeof communityData.socialLinks
+                              ] || ''
+                            }
                             onChange={(e) => handleSocialLinkChange(platform, e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder={`https://${platform}.com/your-profile`}
@@ -608,15 +640,20 @@ const CommunityEditPage: React.FC = () => {
                         Add Link
                       </button>
                     </div>
-                    
+
                     <div className="space-y-4">
-                      {communityData.communityLinks.map(link => (
-                        <div key={link.id} className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg">
+                      {communityData.communityLinks.map((link) => (
+                        <div
+                          key={link.id}
+                          className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg"
+                        >
                           <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
                             <input
                               type="text"
                               value={link.title}
-                              onChange={(e) => updateCommunityLink(link.id, 'title', e.target.value)}
+                              onChange={(e) =>
+                                updateCommunityLink(link.id, 'title', e.target.value)
+                              }
                               placeholder="Link title"
                               className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
@@ -653,12 +690,12 @@ const CommunityEditPage: React.FC = () => {
                         Add Photo
                       </button>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                       {communityData.photoGallery.map((photo, index) => (
                         <div key={index} className="relative group">
-                          <img 
-                            src={photo} 
+                          <img
+                            src={photo}
                             alt={`Gallery ${index + 1}`}
                             className="w-full h-32 object-cover rounded-lg"
                           />
@@ -684,13 +721,13 @@ const CommunityEditPage: React.FC = () => {
                         Create Event
                       </button>
                     </div>
-                    
+
                     <div className="space-y-4">
-                      {communityData.upcomingEvents.map(event => (
+                      {communityData.upcomingEvents.map((event) => (
                         <div key={event.id} className="border border-gray-200 rounded-lg p-4">
                           <div className="flex items-start space-x-4">
-                            <img 
-                              src={event.image} 
+                            <img
+                              src={event.image}
                               alt={event.title}
                               className="w-20 h-20 object-cover rounded-lg"
                             />
@@ -724,13 +761,13 @@ const CommunityEditPage: React.FC = () => {
                         Feature Project
                       </button>
                     </div>
-                    
+
                     <div className="space-y-4">
-                      {communityData.featuredProjects.map(project => (
+                      {communityData.featuredProjects.map((project) => (
                         <div key={project.id} className="border border-gray-200 rounded-lg p-4">
                           <div className="flex items-start space-x-4">
-                            <img 
-                              src={project.image} 
+                            <img
+                              src={project.image}
                               alt={project.title}
                               className="w-20 h-20 object-cover rounded-lg"
                             />
@@ -758,7 +795,7 @@ const CommunityEditPage: React.FC = () => {
                 {activeSection === 'members' && (
                   <div className="space-y-8">
                     <h2 className="text-xl font-bold text-gray-900">Members & Security</h2>
-                    
+
                     {/* Pending Join Requests */}
                     {communityData.pendingRequests.length > 0 && (
                       <div className="space-y-4">
@@ -771,13 +808,16 @@ const CommunityEditPage: React.FC = () => {
                             </span>
                           </h3>
                         </div>
-                        
+
                         <div className="space-y-4">
-                          {communityData.pendingRequests.map(request => (
-                            <div key={request.id} className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                          {communityData.pendingRequests.map((request) => (
+                            <div
+                              key={request.id}
+                              className="bg-orange-50 border border-orange-200 rounded-lg p-4"
+                            >
                               <div className="flex items-start space-x-4">
-                                <img 
-                                  src={request.avatar} 
+                                <img
+                                  src={request.avatar}
                                   alt={request.name}
                                   className="h-12 w-12 rounded-full"
                                 />
@@ -791,10 +831,12 @@ const CommunityEditPage: React.FC = () => {
                                   <p className="text-sm text-gray-600 mt-1">{request.bio}</p>
                                   {request.message && (
                                     <div className="mt-3 p-3 bg-white rounded-lg border border-orange-200">
-                                      <p className="text-sm text-gray-700 italic">"{request.message}"</p>
+                                      <p className="text-sm text-gray-700 italic">
+                                        "{request.message}"
+                                      </p>
                                     </div>
                                   )}
-                                  
+
                                   <div className="flex space-x-3 mt-4">
                                     <button
                                       onClick={() => approveRequest(request.id)}
@@ -828,24 +870,31 @@ const CommunityEditPage: React.FC = () => {
                           {communityData.members.length}
                         </span>
                       </h3>
-                      
+
                       <div className="space-y-3">
-                        {communityData.members.map(member => (
-                          <div key={member.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white">
+                        {communityData.members.map((member) => (
+                          <div
+                            key={member.id}
+                            className="flex items-center justify-between p-4 border border-gray-200 rounded-lg bg-white"
+                          >
                             <div className="flex items-center space-x-3">
-                              <img 
-                                src={member.avatar} 
+                              <img
+                                src={member.avatar}
                                 alt={member.name}
                                 className="h-10 w-10 rounded-full"
                               />
                               <div>
                                 <p className="font-medium text-gray-900">{member.name}</p>
                                 <div className="flex items-center space-x-2">
-                                  <span className={`px-2 py-1 text-xs rounded-full ${
-                                    member.role === 'admin' ? 'bg-purple-100 text-purple-800' :
-                                    member.role === 'moderator' ? 'bg-blue-100 text-blue-800' :
-                                    'bg-gray-100 text-gray-800'
-                                  }`}>
+                                  <span
+                                    className={`px-2 py-1 text-xs rounded-full ${
+                                      member.role === 'admin'
+                                        ? 'bg-purple-100 text-purple-800'
+                                        : member.role === 'moderator'
+                                          ? 'bg-blue-100 text-blue-800'
+                                          : 'bg-gray-100 text-gray-800'
+                                    }`}
+                                  >
                                     {member.role}
                                   </span>
                                   <span className="text-sm text-gray-500">
@@ -854,7 +903,7 @@ const CommunityEditPage: React.FC = () => {
                                 </div>
                               </div>
                             </div>
-                            
+
                             {member.role !== 'admin' && (
                               <div className="relative" ref={dropdownRef}>
                                 <button
@@ -863,7 +912,7 @@ const CommunityEditPage: React.FC = () => {
                                 >
                                   <MoreVertical className="h-4 w-4" />
                                 </button>
-                                
+
                                 {openDropdown === member.id && (
                                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
                                     <div className="py-1">

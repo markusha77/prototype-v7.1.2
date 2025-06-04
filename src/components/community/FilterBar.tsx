@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 export const FilterBar: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState('all')
-  
+  const [activeFilter, setActiveFilter] = useState('all');
+
   const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter)
-  }
-  
+    setActiveFilter(filter);
+  };
+
   return (
     <div className="mb-6">
-      <div className="border-b border-gray-200">
-        <nav className="-mb-px flex space-x-8">
+      <div className="border-b border-gray-200 overflow-x-auto">
+        <nav className="-mb-px flex space-x-3 md:space-x-8 w-max">
           <button
             className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
               activeFilter === 'all'
@@ -21,7 +21,7 @@ export const FilterBar: React.FC = () => {
           >
             All Projects
           </button>
-          
+
           <button
             className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
               activeFilter === 'trending'
@@ -32,7 +32,7 @@ export const FilterBar: React.FC = () => {
           >
             Trending
           </button>
-          
+
           <button
             className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
               activeFilter === 'new'
@@ -43,7 +43,7 @@ export const FilterBar: React.FC = () => {
           >
             New
           </button>
-          
+
           <button
             className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
               activeFilter === 'following'
@@ -57,5 +57,5 @@ export const FilterBar: React.FC = () => {
         </nav>
       </div>
     </div>
-  )
-}
+  );
+};

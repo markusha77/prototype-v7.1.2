@@ -1,41 +1,37 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { ArrowRight, User, Briefcase, Eye, Globe } from 'lucide-react'
-import logo from "../../assets/logo.svg"
-import logo_name from '../../assets/logo-light-text.svg'
+import { ArrowRight, Briefcase, Eye, Globe, User } from 'lucide-react';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import logo_name from '../../assets/logo-light-text.svg';
+import logo from '../../assets/logo.svg';
 
 const Welcome: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleCreateProfile = () => {
     // Navigate to the profile edit page with state indicating we came from Welcome
-    navigate('/profile/edit', { state: { from: '/builder' } })
-  }
+    navigate('/profile/edit', { state: { from: '/builder' } });
+  };
 
   const handleAddProject = () => {
     // Navigate to the projects new page with state indicating we came from Welcome
-    navigate('/projects/new', { state: { from: '/builder' } })
-  }
+    navigate('/projects/new', { state: { from: '/builder' } });
+  };
 
   const handlePreviewProfile = () => {
     // Navigate to the profile preview page
-    navigate('/profile/preview')
-  }
+    navigate('/profile/preview');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
       {/* Header matching onboarding flow */}
       <header className="bg-opacity-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="cb-wrapper">
           <div className="flex justify-between h-16 items-center">
             <Link to="/community">
               <div className="flex items-center">
-                <img
-                  src={logo}
-                  alt="ChatAndBuild Logo"
-                  className="h-8 w-8 mr-2"
-                />
+                <img src={logo} alt="ChatAndBuild Logo" className="h-8 w-8 mr-2" />
                 <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
 
                 {/* <span className="text-xl font-bold text-indigo-600">
@@ -54,7 +50,7 @@ const Welcome: React.FC = () => {
         <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
           Welcome to ChatAndBuild
         </h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
             <div className="flex items-center mb-4">
@@ -63,11 +59,12 @@ const Welcome: React.FC = () => {
               </div>
               <h2 className="text-xl font-semibold ml-4">Builder Portfolio</h2>
             </div>
-            
+
             <p className="text-gray-600 mb-6">
-              Create your builder profile to showcase your skills, projects, and connect with other builders in the community.
+              Create your builder profile to showcase your skills, projects, and connect with other
+              builders in the community.
             </p>
-            
+
             <button
               onClick={handleCreateProfile}
               className="w-full flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
@@ -75,7 +72,7 @@ const Welcome: React.FC = () => {
               Edit Profile <ArrowRight className="ml-2 h-4 w-4" />
             </button>
           </div>
-          
+
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
             <div className="flex items-center mb-4">
               <div className="bg-indigo-100 p-3 rounded-full">
@@ -83,11 +80,12 @@ const Welcome: React.FC = () => {
               </div>
               <h2 className="text-xl font-semibold ml-4">Project Showcase</h2>
             </div>
-            
+
             <p className="text-gray-600 mb-6">
-              Share your projects with the community. Get feedback, collaborate with others, and inspire fellow builders.
+              Share your projects with the community. Get feedback, collaborate with others, and
+              inspire fellow builders.
             </p>
-            
+
             <button
               onClick={handleAddProject}
               className="w-full flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
@@ -96,7 +94,7 @@ const Welcome: React.FC = () => {
             </button>
           </div>
         </div>
-        
+
         <div className="mt-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-shadow">
           <div className="flex items-center mb-4">
             <div className="bg-indigo-100 p-3 rounded-full">
@@ -104,16 +102,20 @@ const Welcome: React.FC = () => {
             </div>
             <h2 className="text-xl font-semibold ml-4">Preview Profile</h2>
           </div>
-          
+
           <p className="text-gray-600 mb-6">
-            View how your profile appears to other community members. Check your portfolio presentation and make adjustments if needed.
+            View how your profile appears to other community members. Check your portfolio
+            presentation and make adjustments if needed.
           </p>
-          
-          <button className="w-full flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors" onClick={() => navigate('/preview')}>
-              Preview Portfolio
-            </button>
+
+          <button
+            className="w-full flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            onClick={() => navigate('/preview')}
+          >
+            Preview Portfolio
+          </button>
         </div>
-        
+
         <div className="mt-8 text-center">
           <Link
             to="/community"
@@ -126,7 +128,7 @@ const Welcome: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Welcome
+export default Welcome;

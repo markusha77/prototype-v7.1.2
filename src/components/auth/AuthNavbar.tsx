@@ -1,12 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import logo from '../../assets/logo.svg'
-import logo_name from '../../assets/logo-light-text.svg'
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+import logo_name from '../../assets/logo-light-text.svg';
+import logo from '../../assets/logo.svg';
 
 export const AuthNavbar: React.FC = () => {
   return (
     <header className="bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="cb-wrapper">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
@@ -19,7 +20,7 @@ export const AuthNavbar: React.FC = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default AuthNavbar
+export default AuthNavbar;

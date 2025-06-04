@@ -1,16 +1,28 @@
+import {
+  ArrowLeft,
+  Code,
+  Edit,
+  ExternalLink,
+  Github,
+  Globe,
+  Linkedin,
+  Mail,
+  MapPin,
+  Twitter,
+} from 'lucide-react';
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { useProfile } from '../context/ProfileContext';
 import Button from './ui/Button';
-import { MapPin, Mail, Globe, Github, Twitter, Linkedin, ExternalLink, Code, ArrowLeft, Edit } from 'lucide-react';
-import logo from "../../assets/logo.svg";
-import logo_name from '../../assets/logo-light-text.svg'
 
+import logo_name from '../../assets/logo-light-text.svg';
+import logo from '../../assets/logo.svg';
 
 const ProfilePreview: React.FC = () => {
   const { profile } = useProfile();
   const navigate = useNavigate();
-  
+
   if (!profile) {
     return <div>Loading...</div>;
   }
@@ -18,22 +30,17 @@ const ProfilePreview: React.FC = () => {
   const handleBackClick = () => {
     navigate('/builder');
   };
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
       {/* Header matching onboarding flow */}
       <header className="bg-opacity-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="cb-wrapper">
           <div className="flex justify-between h-16 items-center">
             <Link to="/community">
               <div className="flex items-center">
-                <img
-                  src={logo}
-                  alt="ChatAndBuild Logo"
-                  className="h-8 w-8 mr-2"
-                />
-                                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
-
+                <img src={logo} alt="ChatAndBuild Logo" className="h-8 w-8 mr-2" />
+                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
               </div>
             </Link>
           </div>
@@ -46,7 +53,7 @@ const ProfilePreview: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4 pt-8">
         {/* Back button positioned 5px lower than the card top edge */}
         <div className="flex items-start gap-4">
-          <button 
+          <button
             onClick={handleBackClick}
             className="p-4 rounded-full bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 mt-1"
             aria-label="Back to portfolio"
@@ -57,20 +64,23 @@ const ProfilePreview: React.FC = () => {
           <div className="flex-1">
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8 rounded-t-lg">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                <img 
-                  src={profile.avatar || 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80'} 
-                  alt={profile.name} 
+                <img
+                  src={
+                    profile.avatar ||
+                    'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=300&q=80'
+                  }
+                  alt={profile.name}
                   className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                 />
-                
+
                 <div className="text-center md:text-left flex-grow">
                   <div className="flex flex-col md:flex-row md:justify-between md:items-start">
                     <div>
                       <h1 className="text-3xl font-bold mb-2">{profile.name}</h1>
                       <p className="text-xl text-blue-100 mb-4">{profile.title}</p>
                     </div>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={() => navigate('/profile')}
                       className="bg-white/20 border-white/40 text-white hover:bg-white/30 mt-2 md:mt-0"
                     >
@@ -78,7 +88,7 @@ const ProfilePreview: React.FC = () => {
                       Edit Profile
                     </Button>
                   </div>
-                  
+
                   <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-4">
                     {profile.location && (
                       <div className="flex items-center">
@@ -86,7 +96,7 @@ const ProfilePreview: React.FC = () => {
                         <span>{profile.location}</span>
                       </div>
                     )}
-                    
+
                     {profile.email && (
                       <div className="flex items-center">
                         <Mail size={18} className="mr-1" />
@@ -96,12 +106,12 @@ const ProfilePreview: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="flex flex-wrap justify-center md:justify-start gap-4">
                     {profile.website && (
-                      <a 
-                        href={profile.website} 
-                        target="_blank" 
+                      <a
+                        href={profile.website}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center hover:underline"
                       >
@@ -109,11 +119,11 @@ const ProfilePreview: React.FC = () => {
                         Website
                       </a>
                     )}
-                    
+
                     {profile.github && (
-                      <a 
-                        href={profile.github} 
-                        target="_blank" 
+                      <a
+                        href={profile.github}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center hover:underline"
                       >
@@ -121,11 +131,11 @@ const ProfilePreview: React.FC = () => {
                         GitHub
                       </a>
                     )}
-                    
+
                     {profile.twitter && (
-                      <a 
-                        href={profile.twitter} 
-                        target="_blank" 
+                      <a
+                        href={profile.twitter}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center hover:underline"
                       >
@@ -133,11 +143,11 @@ const ProfilePreview: React.FC = () => {
                         Twitter
                       </a>
                     )}
-                    
+
                     {profile.linkedin && (
-                      <a 
-                        href={profile.linkedin} 
-                        target="_blank" 
+                      <a
+                        href={profile.linkedin}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center hover:underline"
                       >
@@ -149,20 +159,20 @@ const ProfilePreview: React.FC = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white p-8 rounded-b-lg shadow-md">
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">About Me</h2>
                 <p className="text-gray-700 whitespace-pre-line">{profile.bio}</p>
               </div>
-              
+
               {profile.skills.length > 0 && (
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">Skills & Technologies</h2>
                   <div className="flex flex-wrap gap-2">
-                    {profile.skills.map(skill => (
-                      <span 
-                        key={skill} 
+                    {profile.skills.map((skill) => (
+                      <span
+                        key={skill}
                         className="px-3 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full"
                       >
                         {skill}
@@ -171,12 +181,12 @@ const ProfilePreview: React.FC = () => {
                   </div>
                 </div>
               )}
-              
+
               <div>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                   <h2 className="text-2xl font-bold text-gray-800">Projects</h2>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     onClick={() => navigate('/projects')}
                     className="mt-2 md:mt-0"
                   >
@@ -184,50 +194,54 @@ const ProfilePreview: React.FC = () => {
                     Edit Projects
                   </Button>
                 </div>
-                
+
                 {profile.projects.length === 0 ? (
                   <div className="text-center py-8 bg-gray-50 rounded-lg">
                     <p className="text-gray-500">No projects added yet</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {profile.projects.map(project => (
-                      <div 
-                        key={project.id} 
+                    {profile.projects.map((project) => (
+                      <div
+                        key={project.id}
                         className="border border-gray-200 rounded-lg overflow-hidden flex flex-col"
                       >
                         <div className="h-48">
-                          <img 
-                            src={project.image || 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'} 
-                            alt={project.title} 
+                          <img
+                            src={
+                              project.image ||
+                              'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+                            }
+                            alt={project.title}
                             className="w-full h-full object-cover"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
-                              target.src = 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
+                              target.src =
+                                'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
                             }}
                           />
                         </div>
-                        
+
                         <div className="p-4 flex-grow">
                           <h3 className="text-lg font-bold text-gray-800 mb-2">{project.title}</h3>
                           <p className="text-gray-600 mb-4 line-clamp-3">{project.description}</p>
-                          
+
                           <div className="mb-4">
                             <div className="flex flex-wrap gap-2 mb-2">
-                              {project.categories.map(category => (
-                                <span 
-                                  key={category} 
+                              {project.categories.map((category) => (
+                                <span
+                                  key={category}
                                   className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
                                 >
                                   {category}
                                 </span>
                               ))}
                             </div>
-                            
+
                             <div className="flex flex-wrap gap-2">
-                              {project.technologies.slice(0, 3).map(tech => (
-                                <span 
-                                  key={tech} 
+                              {project.technologies.slice(0, 3).map((tech) => (
+                                <span
+                                  key={tech}
                                   className="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded-full"
                                 >
                                   {tech}
@@ -241,12 +255,12 @@ const ProfilePreview: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="p-4 border-t border-gray-200 bg-gray-50 flex gap-4">
                           {project.demoUrl && (
-                            <a 
-                              href={project.demoUrl} 
-                              target="_blank" 
+                            <a
+                              href={project.demoUrl}
+                              target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800"
                             >
@@ -254,11 +268,11 @@ const ProfilePreview: React.FC = () => {
                               View Demo
                             </a>
                           )}
-                          
+
                           {project.repoUrl && (
-                            <a 
-                              href={project.repoUrl} 
-                              target="_blank" 
+                            <a
+                              href={project.repoUrl}
+                              target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center text-sm text-gray-600 hover:text-gray-800"
                             >

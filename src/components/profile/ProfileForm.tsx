@@ -1,32 +1,44 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useProfile } from '../../hooks/useProfile';
-import Input from './ui/Input';
-import TextArea from './ui/TextArea';
-import MultiSelect from './ui/MultiSelect';
-import Button from './ui/Button';
-import { TECHNOLOGIES } from '../../types';
-import { User, MapPin, Mail, Upload, Trash2, Globe, Github, Linkedin, MessageSquare, ArrowLeft } from 'lucide-react';
-import { Modal } from '../common/Modal';
-import logo from '../../assets/logo.svg';
-import logo_name from '../../assets/logo-light-text.svg'
+import {
+  ArrowLeft,
+  Github,
+  Globe,
+  Linkedin,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Trash2,
+  Upload,
+  User,
+} from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { useProfile } from '../../hooks/useProfile';
+import { TECHNOLOGIES } from '../../types';
+import { Modal } from '../common/Modal';
+import Button from './ui/Button';
+import Input from './ui/Input';
+import MultiSelect from './ui/MultiSelect';
+import TextArea from './ui/TextArea';
+
+import logo_name from '../../assets/logo-light-text.svg';
+import logo from '../../assets/logo.svg';
 
 const ProfileForm: React.FC = () => {
   // This would normally come from a context, but we'll mock it for now
   const { profile, updateProfile } = {
     profile: null,
-    updateProfile: (data: any) => console.log('Profile updated:', data)
+    updateProfile: (data: any) => console.log('Profile updated:', data),
   };
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Check if we came from the Welcome page or profile page
   const fromWelcome = location.state?.from === '/builder' || document.referrer.includes('/builder');
   const fromProfile = location.state?.from === '/profile' || document.referrer.includes('/profile');
-  
+
   const [formData, setFormData] = useState({
     name: profile?.name || '',
     title: profile?.title || '',
@@ -42,7 +54,7 @@ const ProfileForm: React.FC = () => {
     discord: profile?.discord || '',
     linkedin: profile?.linkedin || '',
     skills: profile?.skills || [],
-    projects: profile?.projects || []
+    projects: profile?.projects || [],
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -51,11 +63,11 @@ const ProfileForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
@@ -64,12 +76,12 @@ const ProfileForm: React.FC = () => {
   };
 
   const handleSkillsChange = (skills: string[]) => {
-    setFormData(prev => ({ ...prev, skills }));
+    setFormData((prev) => ({ ...prev, skills }));
   };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     // Removed bio validation as it's no longer required
@@ -78,21 +90,21 @@ const ProfileForm: React.FC = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     updateProfile({
       ...formData,
-      projects: formData.projects || []
+      projects: formData.projects || [],
     });
-    
+
     // Navigate based on where user came from
     if (fromWelcome) {
       navigate('/builder');
@@ -120,7 +132,7 @@ const ProfileForm: React.FC = () => {
   };
 
   const handleDeleteProfilePicture = () => {
-    setFormData(prev => ({ ...prev, avatar: '' }));
+    setFormData((prev) => ({ ...prev, avatar: '' }));
     setIsProfilePictureModalOpen(false);
   };
 
@@ -129,7 +141,7 @@ const ProfileForm: React.FC = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, avatar: reader.result as string }));
+        setFormData((prev) => ({ ...prev, avatar: reader.result as string }));
       };
       reader.readAsDataURL(file);
     }
@@ -148,12 +160,12 @@ const ProfileForm: React.FC = () => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    
+
     const file = e.dataTransfer.files?.[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, avatar: reader.result as string }));
+        setFormData((prev) => ({ ...prev, avatar: reader.result as string }));
       };
       reader.readAsDataURL(file);
     }
@@ -255,21 +267,20 @@ const ProfileForm: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="cb-wrapper">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/community" className="flex items-center">
                 <img src={logo} alt="ChatAndBuild Logo" className="h-8 w-8 mr-2" />
-                                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
+                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
 
                 {/* <span className="text-xl font-bold text-indigo-600">ChatAndBuild</span> */}
               </Link>
-              
+
               <nav className="hidden md:ml-10 md:flex md:space-x-8">
                 {/* <Link to="/community" className="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md">
                   Community
                 </Link> */}
-               
               </nav>
             </div>
           </div>
@@ -279,7 +290,7 @@ const ProfileForm: React.FC = () => {
       <div className="max-w-4xl mx-auto mt-8">
         {/* Back button positioned 5px lower than the card top edge */}
         <div className="flex items-start gap-4">
-          <button 
+          <button
             onClick={handleBackClick}
             className="p-4 rounded-full bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 mt-1"
             aria-label="Back to profile"
@@ -292,7 +303,7 @@ const ProfileForm: React.FC = () => {
               <div className="w-2 h-8 bg-indigo-600 rounded-full mr-3"></div>
               <h2 className="text-2xl font-bold text-gray-800">Your Profile</h2>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="md:col-span-2 space-y-6">
@@ -308,7 +319,7 @@ const ProfileForm: React.FC = () => {
                       required
                       icon={<User size={18} className="text-gray-500" />}
                     />
-                    
+
                     <Input
                       label="Professional Title"
                       name="title"
@@ -320,7 +331,7 @@ const ProfileForm: React.FC = () => {
                       required
                     />
                   </div>
-                  
+
                   <TextArea
                     label="Bio"
                     name="bio"
@@ -330,7 +341,7 @@ const ProfileForm: React.FC = () => {
                     error={errors.bio}
                     fullWidth
                   />
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input
                       label="Location"
@@ -341,7 +352,7 @@ const ProfileForm: React.FC = () => {
                       fullWidth
                       icon={<MapPin size={18} className="text-gray-500" />}
                     />
-                    
+
                     <Input
                       label="Email"
                       name="email"
@@ -362,7 +373,7 @@ const ProfileForm: React.FC = () => {
                     <h3 className="text-sm font-medium text-gray-700 mb-2 text-center">
                       Profile Picture
                     </h3>
-                    <div 
+                    <div
                       className={`relative w-48 h-48 rounded-full overflow-hidden border-2 ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 bg-gray-50'} transition-all duration-200 flex items-center justify-center cursor-pointer`}
                       onClick={triggerFileInput}
                       onDragOver={handleDragOver}
@@ -370,30 +381,28 @@ const ProfileForm: React.FC = () => {
                       onDrop={handleDrop}
                     >
                       {formData.avatar ? (
-                        <img 
-                          src={formData.avatar} 
-                          alt="Profile" 
+                        <img
+                          src={formData.avatar}
+                          alt="Profile"
                           className="w-full h-full object-cover"
                         />
                       ) : (
                         <div className="flex flex-col items-center justify-center p-4 text-center">
                           <Upload className="h-8 w-8 text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-500">
-                            Click or drag image here
-                          </p>
+                          <p className="text-sm text-gray-500">Click or drag image here</p>
                         </div>
                       )}
-                      
-                      <input 
+
+                      <input
                         ref={fileInputRef}
-                        type="file" 
-                        accept="image/*" 
-                        className="hidden" 
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
                         onChange={handleFileUpload}
                       />
                     </div>
                   </div>
-                  
+
                   <div className="flex space-x-2 mt-2">
                     <button
                       type="button"
@@ -414,14 +423,14 @@ const ProfileForm: React.FC = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Social Profiles Section */}
               <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="flex items-center mb-4">
                   <div className="w-1.5 h-6 bg-indigo-400 rounded-full mr-3"></div>
                   <h3 className="text-lg font-medium text-gray-800">Social Profiles (optional)</h3>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input
                     label="Website"
@@ -432,7 +441,7 @@ const ProfileForm: React.FC = () => {
                     fullWidth
                     icon={<Globe size={18} className="text-gray-500" />}
                   />
-                  
+
                   <Input
                     label="GitHub"
                     name="github"
@@ -442,7 +451,7 @@ const ProfileForm: React.FC = () => {
                     fullWidth
                     icon={<Github size={18} className="text-gray-500" />}
                   />
-                  
+
                   <Input
                     label="X"
                     name="twitter"
@@ -452,7 +461,7 @@ const ProfileForm: React.FC = () => {
                     fullWidth
                     icon={<XIcon />}
                   />
-                  
+
                   <Input
                     label="Telegram"
                     name="telegram"
@@ -462,7 +471,7 @@ const ProfileForm: React.FC = () => {
                     fullWidth
                     icon={<TelegramIcon />}
                   />
-                  
+
                   <Input
                     label="Slack"
                     name="slack"
@@ -472,7 +481,7 @@ const ProfileForm: React.FC = () => {
                     fullWidth
                     icon={<SlackIcon />}
                   />
-                  
+
                   <Input
                     label="Discord"
                     name="discord"
@@ -482,7 +491,7 @@ const ProfileForm: React.FC = () => {
                     fullWidth
                     icon={<DiscordIcon />}
                   />
-                  
+
                   <Input
                     label="LinkedIn"
                     name="linkedin"
@@ -494,13 +503,13 @@ const ProfileForm: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="flex items-center mb-4">
                   <div className="w-1.5 h-6 bg-indigo-400 rounded-full mr-3"></div>
                   <h3 className="text-lg font-medium text-gray-800">Skills & Technologies</h3>
                 </div>
-                
+
                 <MultiSelect
                   options={TECHNOLOGIES}
                   selectedValues={formData.skills}
@@ -508,18 +517,12 @@ const ProfileForm: React.FC = () => {
                   placeholder="Select or type to add skills"
                 />
               </div>
-              
+
               <div className="flex justify-end space-x-4 pt-6">
-                <Button 
-                  type="button" 
-                  variant="outline"
-                  onClick={handleCancel}
-                >
+                <Button type="button" variant="outline" onClick={handleCancel}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  Save & Continue
-                </Button>
+                <Button type="submit">Save & Continue</Button>
               </div>
             </form>
           </div>
