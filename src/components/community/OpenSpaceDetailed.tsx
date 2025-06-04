@@ -271,11 +271,8 @@ const OpenSpaceDetailed: React.FC = () => {
   // Show loading indicator while content is being prepared
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-64px)]">
-          <LoadingIndicator size="md" color="indigo" message="Loading open space..." />
-        </div>
+      <div className="flex items-center justify-center h-[calc(100vh-64px)]">
+        <LoadingIndicator size="md" color="indigo" message="Loading open space..." />
       </div>
     );
   }
@@ -283,509 +280,498 @@ const OpenSpaceDetailed: React.FC = () => {
   // Show not found message if open space doesn't exist
   if (!openSpace) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="cb-wrapper py-12">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Open Space not found</h2>
-            <Link
-              to="/open-spaces"
-              className="inline-flex items-center text-blue-600 hover:text-blue-800"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Open Spaces
-            </Link>
-          </div>
+      <div className="cb-wrapper py-12">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Open Space not found</h2>
+          <Link
+            to="/open-spaces"
+            className="inline-flex items-center text-blue-600 hover:text-blue-800"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Open Spaces
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div style={contentStyle}>
+      {/* Back button section */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="cb-wrapper py-4">
+          <Link
+            to="/open-spaces"
+            className="group inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-0.5 font-semibold"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span>Back to Open Spaces</span>
+          </Link>
+        </div>
+      </div>
 
-      <div style={contentStyle}>
-        {/* Back button section */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="cb-wrapper py-4">
-            <Link
-              to="/open-spaces"
-              className="group inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-0.5 font-semibold"
-            >
-              <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
-              <span>Back to Open Spaces</span>
-            </Link>
-          </div>
+      {/* Hero section with cover image and space info */}
+      <div className="relative">
+        {/* Cover image */}
+        <div className="h-64 md:h-80 w-full overflow-hidden">
+          <img
+            src={
+              openSpace.coverImage ||
+              'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80'
+            }
+            alt={openSpace.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
         </div>
 
-        {/* Hero section with cover image and space info */}
-        <div className="relative">
-          {/* Cover image */}
-          <div className="h-64 md:h-80 w-full overflow-hidden">
-            <img
-              src={
-                openSpace.coverImage ||
-                'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80'
-              }
-              alt={openSpace.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
-          </div>
+        {/* Space info overlay */}
+        <div className="absolute bottom-0 left-0 right-0 text-white p-6">
+          <div className="cb-wrapper flex flex-col md:flex-row md:items-end">
+            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+              <img
+                src={openSpace.logo}
+                alt={openSpace.title}
+                className="h-24 w-24 rounded-lg border-4 border-white shadow-sm object-cover"
+                onError={(e) => {
+                  e.currentTarget.src =
+                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
+                }}
+              />
+            </div>
 
-          {/* Space info overlay */}
-          <div className="absolute bottom-0 left-0 right-0 text-white p-6">
-            <div className="cb-wrapper flex flex-col md:flex-row md:items-end">
-              <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                <img
-                  src={openSpace.logo}
-                  alt={openSpace.title}
-                  className="h-24 w-24 rounded-lg border-4 border-white shadow-sm object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
-                  }}
-                />
-              </div>
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold mb-2">{openSpace.title}</h1>
+              <p className="text-white text-opacity-90 mb-4 max-w-3xl">{openSpace.description}</p>
 
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2">{openSpace.title}</h1>
-                <p className="text-white text-opacity-90 mb-4 max-w-3xl">{openSpace.description}</p>
-
-                <div className="flex flex-wrap items-center gap-4 text-sm">
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-1" />
-                    <span>{openSpace.members} members</span>
-                  </div>
-
-                  <div className="flex items-center">
-                    <Briefcase className="h-4 w-4 mr-1" />
-                    <span>{openSpace.projects} projects</span>
-                  </div>
-
-                  {openSpace.createdAt && (
-                    <div className="flex items-center">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>Created {formatDate(openSpace.createdAt)}</span>
-                    </div>
-                  )}
-
-                  {openSpace.website && (
-                    <div className="flex items-center">
-                      <Globe className="h-4 w-4 mr-1" />
-                      <a
-                        href={openSpace.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:underline"
-                      >
-                        Website
-                      </a>
-                    </div>
-                  )}
+              <div className="flex flex-wrap items-center gap-4 text-sm">
+                <div className="flex items-center">
+                  <Users className="h-4 w-4 mr-1" />
+                  <span>{openSpace.members} members</span>
                 </div>
-              </div>
 
-              <div className="mt-6 md:mt-0 flex flex-col md:flex-row items-center gap-3">
-                {renderJoinButton(openSpace.joinStatus)}
+                <div className="flex items-center">
+                  <Briefcase className="h-4 w-4 mr-1" />
+                  <span>{openSpace.projects} projects</span>
+                </div>
 
-                <button
-                  onClick={toggleSubscription}
-                  className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors"
-                >
-                  {isSubscribed ? (
-                    <>
-                      <BellOff className="h-4 w-4 mr-2" />
-                      <span>Unsubscribe</span>
-                    </>
-                  ) : (
-                    <>
-                      <Bell className="h-4 w-4 mr-2" />
-                      <span>Subscribe</span>
-                    </>
-                  )}
-                </button>
+                {openSpace.createdAt && (
+                  <div className="flex items-center">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    <span>Created {formatDate(openSpace.createdAt)}</span>
+                  </div>
+                )}
 
-                <button className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors">
-                  <Share2 className="h-4 w-4 mr-2" />
-                  <span>Share</span>
-                </button>
-
-                {openSpace.title === 'AI & Machine Learning' && (
-                  <button
-                    onClick={handleEditSpace}
-                    className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors"
-                    title="Edit Space"
-                  >
-                    <Edit className="h-4 w-4 mr-2" />
-                    <span>Edit</span>
-                  </button>
+                {openSpace.website && (
+                  <div className="flex items-center">
+                    <Globe className="h-4 w-4 mr-1" />
+                    <a
+                      href={openSpace.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
+                      Website
+                    </a>
+                  </div>
                 )}
               </div>
             </div>
+
+            <div className="mt-6 md:mt-0 flex flex-col md:flex-row items-center gap-3">
+              {renderJoinButton(openSpace.joinStatus)}
+
+              <button
+                onClick={toggleSubscription}
+                className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors"
+              >
+                {isSubscribed ? (
+                  <>
+                    <BellOff className="h-4 w-4 mr-2" />
+                    <span>Unsubscribe</span>
+                  </>
+                ) : (
+                  <>
+                    <Bell className="h-4 w-4 mr-2" />
+                    <span>Subscribe</span>
+                  </>
+                )}
+              </button>
+
+              <button className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors">
+                <Share2 className="h-4 w-4 mr-2" />
+                <span>Share</span>
+              </button>
+
+              {openSpace.title === 'AI & Machine Learning' && (
+                <button
+                  onClick={handleEditSpace}
+                  className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors"
+                  title="Edit Space"
+                >
+                  <Edit className="h-4 w-4 mr-2" />
+                  <span>Edit</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Main content */}
-        <div className="cb-wrapper py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left sidebar */}
-            <div className="lg:col-span-1">
-              {/* About section */}
-              <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full -translate-y-14 translate-x-14"></div>
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-indigo-200/20 to-blue-200/20 rounded-full translate-y-10 -translate-x-10"></div>
+      {/* Main content */}
+      <div className="cb-wrapper py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left sidebar */}
+          <div className="lg:col-span-1">
+            {/* About section */}
+            <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full -translate-y-14 translate-x-14"></div>
+              <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-indigo-200/20 to-blue-200/20 rounded-full translate-y-10 -translate-x-10"></div>
 
-                <div className="relative z-10">
-                  <h2 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent mb-4">
-                    About
-                  </h2>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/50 shadow-sm">
-                    <p className="text-gray-700 mb-6">
-                      {openSpace.longDescription || openSpace.description}
-                    </p>
+              <div className="relative z-10">
+                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent mb-4">
+                  About
+                </h2>
+                <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/50 shadow-sm">
+                  <p className="text-gray-700 mb-6">
+                    {openSpace.longDescription || openSpace.description}
+                  </p>
 
-                    {/* Photo Gallery Section */}
-                    {openSpace.photoCount && (
-                      <div className="mb-6">
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="text-sm font-semibold text-gray-700">Space Photos</h3>
-                          <span className="text-xs text-gray-500">
-                            {openSpace.photoCount} photos
-                          </span>
-                        </div>
-
-                        {/* Photo preview grid */}
-                        <div className="grid grid-cols-3 gap-2 mb-3">
-                          {[...Array(3)].map((_, index) => (
-                            <div key={index} className="aspect-square rounded-lg overflow-hidden">
-                              <img
-                                src={`https://images.unsplash.com/photo-${1520000000000 + index * 100000}?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=300&q=80`}
-                                alt={`Space photo ${index + 1}`}
-                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
-                                onError={(e) => {
-                                  e.currentTarget.src =
-                                    'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=300&q=80';
-                                }}
-                              />
-                            </div>
-                          ))}
-                        </div>
-
-                        <Link
-                          to={`/open-space/${openSpace.id}/gallery`}
-                          className="group flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200 text-blue-700 rounded-lg transition-all duration-200 font-medium"
-                        >
-                          <Camera className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-200" />
-                          <span>View photo gallery</span>
-                        </Link>
+                  {/* Photo Gallery Section */}
+                  {openSpace.photoCount && (
+                    <div className="mb-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-sm font-semibold text-gray-700">Space Photos</h3>
+                        <span className="text-xs text-gray-500">{openSpace.photoCount} photos</span>
                       </div>
-                    )}
 
-                    {openSpace.tags && openSpace.tags.length > 0 && (
-                      <div className="mb-6">
-                        <h3 className="text-sm font-semibold text-gray-700 mb-2">Tags</h3>
-                        <div className="flex flex-wrap gap-2">
-                          {openSpace.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                      {/* Photo preview grid */}
+                      <div className="grid grid-cols-3 gap-2 mb-3">
+                        {[...Array(3)].map((_, index) => (
+                          <div key={index} className="aspect-square rounded-lg overflow-hidden">
+                            <img
+                              src={`https://images.unsplash.com/photo-${1520000000000 + index * 100000}?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=300&q=80`}
+                              alt={`Space photo ${index + 1}`}
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                              onError={(e) => {
+                                e.currentTarget.src =
+                                  'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&h=300&q=80';
+                              }}
+                            />
+                          </div>
+                        ))}
                       </div>
-                    )}
 
-                    {openSpace.admins && openSpace.admins.length > 0 && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-gray-700 mb-3">
-                          Space Moderators
-                        </h3>
-                        <div className="space-y-4">
-                          {openSpace.admins.map((admin) => (
-                            <div key={admin.id} className="flex items-center">
-                              <img
-                                src={admin.avatar}
-                                alt={admin.name}
-                                className="h-10 w-10 rounded-full mr-3"
-                                onError={(e) => {
-                                  e.currentTarget.src =
-                                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
-                                }}
-                              />
-                              <div>
-                                <p className="font-medium text-gray-900">{admin.name}</p>
-                                <p className="text-sm text-gray-500">{admin.role}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Members preview */}
-              <div className="bg-gradient-to-br from-blue-50 via-white to-cyan-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-200/30 to-cyan-200/30 rounded-full -translate-y-14 translate-x-14"></div>
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-sky-200/20 to-blue-200/20 rounded-full translate-y-10 -translate-x-10"></div>
-
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-cyan-700 bg-clip-text text-transparent">
-                      Members
-                    </h2>
-                    <Link
-                      to={`/open-space/${openSpace.id}/members`}
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline transition-colors"
-                    >
-                      View all
-                    </Link>
-                  </div>
-
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/50 shadow-sm">
-                    <div className="flex -space-x-2 overflow-hidden mb-4">
-                      {[...Array(Math.min(5, openSpace.members))].map((_, index) => (
-                        <img
-                          key={index}
-                          className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
-                          src={`https://images.unsplash.com/photo-${1490000000000 + index * 10000}?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80`}
-                          alt={`Member ${index + 1}`}
-                          onError={(e) => {
-                            e.currentTarget.src =
-                              'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
-                          }}
-                        />
-                      ))}
-
-                      {openSpace.members > 5 && (
-                        <span className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 text-gray-700 text-sm font-medium ring-2 ring-white">
-                          +{openSpace.members - 5}
-                        </span>
-                      )}
+                      <Link
+                        to={`/open-space/${openSpace.id}/gallery`}
+                        className="group flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-blue-100 to-purple-100 hover:from-blue-200 hover:to-purple-200 text-blue-700 rounded-lg transition-all duration-200 font-medium"
+                      >
+                        <Camera className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-200" />
+                        <span>View photo gallery</span>
+                      </Link>
                     </div>
+                  )}
 
-                    <button className="w-full px-4 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors text-sm font-medium">
-                      Invite Members
-                    </button>
-                  </div>
-                </div>
-              </div>
+                  {openSpace.tags && openSpace.tags.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-sm font-semibold text-gray-700 mb-2">Tags</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {openSpace.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-              {/* Upcoming Events Gallery */}
-              <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-xl shadow-lg border border-indigo-100 p-6 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full -translate-y-16 translate-x-16"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-200/20 to-indigo-200/20 rounded-full translate-y-12 -translate-x-12"></div>
-
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-indigo-700 to-purple-700 bg-clip-text text-transparent">
-                      Upcoming Events
-                    </h2>
-                    <Link
-                      to={`/open-space/${openSpace.id}/events`}
-                      className="text-indigo-600 hover:text-indigo-800 text-sm font-medium hover:underline transition-colors"
-                    >
-                      View all
-                    </Link>
-                  </div>
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/50 shadow-sm">
-                    <EventCardGallery />
-                  </div>
+                  {openSpace.admins && openSpace.admins.length > 0 && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-700 mb-3">Space Moderators</h3>
+                      <div className="space-y-4">
+                        {openSpace.admins.map((admin) => (
+                          <div key={admin.id} className="flex items-center">
+                            <img
+                              src={admin.avatar}
+                              alt={admin.name}
+                              className="h-10 w-10 rounded-full mr-3"
+                              onError={(e) => {
+                                e.currentTarget.src =
+                                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
+                              }}
+                            />
+                            <div>
+                              <p className="font-medium text-gray-900">{admin.name}</p>
+                              <p className="text-sm text-gray-500">{admin.role}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Main content area */}
-            <div className="lg:col-span-2">
-              {/* Projects section - Changed title to "Open Space's projects" */}
-              <div className="bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 rounded-xl shadow-lg border border-violet-100 p-6 mb-6 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-br from-violet-200/30 to-fuchsia-200/30 rounded-full -translate-y-18 translate-x-18"></div>
-                <div className="absolute bottom-0 left-0 w-28 h-28 bg-gradient-to-tr from-purple-200/20 to-violet-200/20 rounded-full translate-y-14 -translate-x-14"></div>
+            {/* Members preview */}
+            <div className="bg-gradient-to-br from-blue-50 via-white to-cyan-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-200/30 to-cyan-200/30 rounded-full -translate-y-14 translate-x-14"></div>
+              <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-sky-200/20 to-blue-200/20 rounded-full translate-y-10 -translate-x-10"></div>
 
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-violet-700 to-fuchsia-700 bg-clip-text text-transparent">
-                      Open Space's projects
-                    </h2>
+              <div className="relative z-10">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-bold bg-gradient-to-r from-blue-700 to-cyan-700 bg-clip-text text-transparent">
+                    Members
+                  </h2>
+                  <Link
+                    to={`/open-space/${openSpace.id}/members`}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium hover:underline transition-colors"
+                  >
+                    View all
+                  </Link>
+                </div>
 
-                    <div className="flex space-x-4">
-                      <select
-                        className="border border-violet-200 rounded-lg px-3 py-1.5 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
-                        value={selectedCategory}
-                        onChange={handleCategoryChange}
-                      >
-                        <option>All Categories</option>
-                        <option>Web Development</option>
-                        <option>Mobile Apps</option>
-                        <option>Data Science</option>
-                        <option>Design</option>
-                      </select>
+                <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/50 shadow-sm">
+                  <div className="flex -space-x-2 overflow-hidden mb-4">
+                    {[...Array(Math.min(5, openSpace.members))].map((_, index) => (
+                      <img
+                        key={index}
+                        className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                        src={`https://images.unsplash.com/photo-${1490000000000 + index * 10000}?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80`}
+                        alt={`Member ${index + 1}`}
+                        onError={(e) => {
+                          e.currentTarget.src =
+                            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
+                        }}
+                      />
+                    ))}
 
-                      <select
-                        className="border border-violet-200 rounded-lg px-3 py-1.5 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
-                        value={sortOption}
-                        onChange={handleSortChange}
-                      >
-                        <option>Most Recent</option>
-                        <option>Most Popular</option>
-                        <option>Most Commented</option>
-                      </select>
-                    </div>
+                    {openSpace.members > 5 && (
+                      <span className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 text-gray-700 text-sm font-medium ring-2 ring-white">
+                        +{openSpace.members - 5}
+                      </span>
+                    )}
                   </div>
 
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-sm">
-                    {/* Featured project */}
-                    <div className="mb-8">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Featured Project</h3>
-
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="md:col-span-1">
-                          <img
-                            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            alt="Featured Project"
-                            className="w-full h-48 object-cover rounded-lg"
-                          />
-                        </div>
-
-                        <div className="md:col-span-2">
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">
-                            AI-Powered Task Manager
-                          </h3>
-
-                          <p className="text-gray-600 mb-4">
-                            A task management app that uses AI to prioritize and suggest tasks based
-                            on your work patterns and deadlines. The system learns from your habits
-                            and helps you focus on what matters most.
-                          </p>
-
-                          <div className="flex items-center mb-4">
-                            <img
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-                              alt="Alex Johnson"
-                              className="h-8 w-8 rounded-full mr-2"
-                            />
-                            <span className="text-sm text-gray-700">Alex Johnson</span>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
-                              AI
-                            </span>
-                            <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
-                              Productivity
-                            </span>
-                            <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
-                              React
-                            </span>
-                          </div>
-
-                          <Link
-                            to="/community/project/1"
-                            className="mt-4 inline-block px-4 py-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white rounded-lg hover:from-violet-700 hover:to-fuchsia-700 transition-colors"
-                          >
-                            View Project
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Project feed */}
-                    <FilterBar />
-                    <ProjectFeed categoryFilter={selectedCategory} sortOption={sortOption} />
-                  </div>
+                  <button className="w-full px-4 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors text-sm font-medium">
+                    Invite Members
+                  </button>
                 </div>
               </div>
+            </div>
 
-              {/* Discussions section */}
-              <div className="bg-gradient-to-br from-slate-50 via-white to-gray-50 rounded-xl shadow-lg border border-slate-100 p-6 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-200/30 to-gray-200/30 rounded-full -translate-y-16 translate-x-16"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-zinc-200/20 to-slate-200/20 rounded-full translate-y-12 -translate-x-12"></div>
+            {/* Upcoming Events Gallery */}
+            <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-xl shadow-lg border border-indigo-100 p-6 relative overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full -translate-y-16 translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-200/20 to-indigo-200/20 rounded-full translate-y-12 -translate-x-12"></div>
 
-                <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-slate-700 to-gray-700 bg-clip-text text-transparent">
-                      Recent Discussions
-                    </h2>
+              <div className="relative z-10">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold bg-gradient-to-r from-indigo-700 to-purple-700 bg-clip-text text-transparent">
+                    Upcoming Events
+                  </h2>
+                  <Link
+                    to={`/open-space/${openSpace.id}/events`}
+                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium hover:underline transition-colors"
+                  >
+                    View all
+                  </Link>
+                </div>
+                <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 border border-white/50 shadow-sm">
+                  <EventCardGallery />
+                </div>
+              </div>
+            </div>
+          </div>
 
-                    <Link
-                      to={`/open-space/${openSpace.id}/discussions`}
-                      className="text-slate-600 hover:text-slate-800 text-sm font-medium hover:underline transition-colors"
+          {/* Main content area */}
+          <div className="lg:col-span-2">
+            {/* Projects section - Changed title to "Open Space's projects" */}
+            <div className="bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 rounded-xl shadow-lg border border-violet-100 p-6 mb-6 relative overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-br from-violet-200/30 to-fuchsia-200/30 rounded-full -translate-y-18 translate-x-18"></div>
+              <div className="absolute bottom-0 left-0 w-28 h-28 bg-gradient-to-tr from-purple-200/20 to-violet-200/20 rounded-full translate-y-14 -translate-x-14"></div>
+
+              <div className="relative z-10">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold bg-gradient-to-r from-violet-700 to-fuchsia-700 bg-clip-text text-transparent">
+                    Open Space's projects
+                  </h2>
+
+                  <div className="flex space-x-4">
+                    <select
+                      className="border border-violet-200 rounded-lg px-3 py-1.5 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
+                      value={selectedCategory}
+                      onChange={handleCategoryChange}
                     >
-                      View all
-                    </Link>
+                      <option>All Categories</option>
+                      <option>Web Development</option>
+                      <option>Mobile Apps</option>
+                      <option>Data Science</option>
+                      <option>Design</option>
+                    </select>
+
+                    <select
+                      className="border border-violet-200 rounded-lg px-3 py-1.5 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
+                      value={sortOption}
+                      onChange={handleSortChange}
+                    >
+                      <option>Most Recent</option>
+                      <option>Most Popular</option>
+                      <option>Most Commented</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-sm">
+                  {/* Featured project */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Featured Project</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="md:col-span-1">
+                        <img
+                          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                          alt="Featured Project"
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          AI-Powered Task Manager
+                        </h3>
+
+                        <p className="text-gray-600 mb-4">
+                          A task management app that uses AI to prioritize and suggest tasks based
+                          on your work patterns and deadlines. The system learns from your habits
+                          and helps you focus on what matters most.
+                        </p>
+
+                        <div className="flex items-center mb-4">
+                          <img
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
+                            alt="Alex Johnson"
+                            className="h-8 w-8 rounded-full mr-2"
+                          />
+                          <span className="text-sm text-gray-700">Alex Johnson</span>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
+                            AI
+                          </span>
+                          <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
+                            Productivity
+                          </span>
+                          <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
+                            React
+                          </span>
+                        </div>
+
+                        <Link
+                          to="/community/project/1"
+                          className="mt-4 inline-block px-4 py-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white rounded-lg hover:from-violet-700 hover:to-fuchsia-700 transition-colors"
+                        >
+                          View Project
+                        </Link>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-sm">
-                    <div className="space-y-4">
-                      {[...Array(3)].map((_, index) => (
-                        <div
-                          key={index}
-                          className="border-b border-gray-200 pb-4 last:border-0 last:pb-0"
-                        >
-                          <Link
-                            to={`/open-space/${openSpace.id}/discussion/${index + 1}`}
-                            className="block hover:bg-slate-50/50 rounded-lg p-3 -mx-3 transition-colors"
-                          >
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                              {index === 0
-                                ? 'Welcome to our open space!'
-                                : index === 1
-                                  ? 'Best practices for AI development'
-                                  : 'Upcoming virtual workshop - Join us!'}
-                            </h3>
+                  {/* Project feed */}
+                  <FilterBar />
+                  <ProjectFeed categoryFilter={selectedCategory} sortOption={sortOption} />
+                </div>
+              </div>
+            </div>
 
-                            <div className="flex items-center mb-2">
-                              <img
-                                src={`https://images.unsplash.com/photo-${1490000000000 + index * 10000}?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80`}
-                                alt="User avatar"
-                                className="h-6 w-6 rounded-full mr-2"
-                                onError={(e) => {
-                                  e.currentTarget.src =
-                                    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
-                                }}
-                              />
-                              <span className="text-sm text-gray-600">
-                                {index === 0
-                                  ? openSpace.admins?.[0]?.name || 'Space Moderator'
-                                  : `Space Member ${index}`}
-                              </span>
-                              <span className="mx-2 text-gray-400">•</span>
-                              <span className="text-sm text-gray-500">
-                                {index === 0
-                                  ? '2 days ago'
-                                  : index === 1
-                                    ? '1 week ago'
-                                    : 'Yesterday'}
-                              </span>
-                            </div>
+            {/* Discussions section */}
+            <div className="bg-gradient-to-br from-slate-50 via-white to-gray-50 rounded-xl shadow-lg border border-slate-100 p-6 relative overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-slate-200/30 to-gray-200/30 rounded-full -translate-y-16 translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-zinc-200/20 to-slate-200/20 rounded-full translate-y-12 -translate-x-12"></div>
 
-                            <div className="flex items-center text-sm text-gray-500">
-                              <MessageSquare className="h-4 w-4 mr-1" />
-                              <span>{(index + 1) * 3} replies</span>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
+              <div className="relative z-10">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold bg-gradient-to-r from-slate-700 to-gray-700 bg-clip-text text-transparent">
+                    Recent Discussions
+                  </h2>
 
-                    <div className="mt-6">
-                      <Link
-                        to={`/open-space/${openSpace.id}/discussions/new`}
-                        className="block w-full text-center px-4 py-2 bg-gradient-to-r from-slate-600 to-gray-600 text-white rounded-md hover:from-slate-700 hover:to-gray-700 transition-colors"
+                  <Link
+                    to={`/open-space/${openSpace.id}/discussions`}
+                    className="text-slate-600 hover:text-slate-800 text-sm font-medium hover:underline transition-colors"
+                  >
+                    View all
+                  </Link>
+                </div>
+
+                <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-sm">
+                  <div className="space-y-4">
+                    {[...Array(3)].map((_, index) => (
+                      <div
+                        key={index}
+                        className="border-b border-gray-200 pb-4 last:border-0 last:pb-0"
                       >
-                        Start a Discussion
-                      </Link>
-                    </div>
+                        <Link
+                          to={`/open-space/${openSpace.id}/discussion/${index + 1}`}
+                          className="block hover:bg-slate-50/50 rounded-lg p-3 -mx-3 transition-colors"
+                        >
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            {index === 0
+                              ? 'Welcome to our open space!'
+                              : index === 1
+                                ? 'Best practices for AI development'
+                                : 'Upcoming virtual workshop - Join us!'}
+                          </h3>
+
+                          <div className="flex items-center mb-2">
+                            <img
+                              src={`https://images.unsplash.com/photo-${1490000000000 + index * 10000}?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80`}
+                              alt="User avatar"
+                              className="h-6 w-6 rounded-full mr-2"
+                              onError={(e) => {
+                                e.currentTarget.src =
+                                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
+                              }}
+                            />
+                            <span className="text-sm text-gray-600">
+                              {index === 0
+                                ? openSpace.admins?.[0]?.name || 'Space Moderator'
+                                : `Space Member ${index}`}
+                            </span>
+                            <span className="mx-2 text-gray-400">•</span>
+                            <span className="text-sm text-gray-500">
+                              {index === 0
+                                ? '2 days ago'
+                                : index === 1
+                                  ? '1 week ago'
+                                  : 'Yesterday'}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center text-sm text-gray-500">
+                            <MessageSquare className="h-4 w-4 mr-1" />
+                            <span>{(index + 1) * 3} replies</span>
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6">
+                    <Link
+                      to={`/open-space/${openSpace.id}/discussions/new`}
+                      className="block w-full text-center px-4 py-2 bg-gradient-to-r from-slate-600 to-gray-600 text-white rounded-md hover:from-slate-700 hover:to-gray-700 transition-colors"
+                    >
+                      Start a Discussion
+                    </Link>
                   </div>
                 </div>
               </div>

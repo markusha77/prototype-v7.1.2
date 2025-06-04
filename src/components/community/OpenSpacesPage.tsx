@@ -129,126 +129,122 @@ const OpenSpacesPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-
-      <main className="cb-wrapper py-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Explore Open Spaces</h1>
-            <p className="text-gray-600 mt-1">
-              Join interest-based spaces to connect, learn, and collaborate
-            </p>
-          </div>
-
-          {/* Search bar */}
-          <div className="mt-4 md:mt-0 w-full md:w-auto">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                className="block w-full md:w-72 pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Search spaces..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
+    <div className="cb-wrapper py-8">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Explore Open Spaces</h1>
+          <p className="text-gray-600 mt-1">
+            Join interest-based spaces to connect, learn, and collaborate
+          </p>
         </div>
 
-        {/* Filter section */}
-        <div className="mb-8">
-          <div className="flex items-center mb-3">
-            <div className="mr-2 text-gray-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                  clipRule="evenodd"
-                />
-              </svg>
+        {/* Search bar */}
+        <div className="mt-4 md:mt-0 w-full md:w-auto">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
             </div>
-            <span className="font-medium text-gray-700">Filter by tags:</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {allTags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                  selectedTags.includes(tag)
-                    ? 'bg-indigo-100 text-indigo-800 border border-indigo-300'
-                    : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
+            <input
+              type="text"
+              className="block w-full md:w-72 pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Search spaces..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
+      </div>
 
-        {/* Spaces grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredSpaces.map((space) => (
-            <Link
-              key={space.id}
-              to={`/open-space/${space.id}`}
-              className="bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:shadow-lg transition-shadow"
+      {/* Filter section */}
+      <div className="mb-8">
+        <div className="flex items-center mb-3">
+          <div className="mr-2 text-gray-700">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
-              {/* Space image */}
-              <div className="h-48 relative">
-                <img src={space.image} alt={space.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                  <h3 className="text-white text-xl font-bold p-4">{space.title}</h3>
-                </div>
-              </div>
+              <path
+                fillRule="evenodd"
+                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <span className="font-medium text-gray-700">Filter by tags:</span>
+        </div>
 
-              {/* Space content */}
-              <div className="p-4">
-                <p className="text-gray-700 text-sm mb-4 line-clamp-3">{space.description}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {space.tags.map((tag, index) => (
-                    <span
-                      key={`${space.id}-${tag}-${index}`}
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        tag.startsWith('+')
-                          ? 'bg-gray-100 text-gray-700'
-                          : 'bg-indigo-50 text-indigo-700'
-                      }`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Stats */}
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-1" />
-                    <span>{space.members.toLocaleString()} members</span>
-                  </div>
-
-                  <div className="flex items-center">
-                    <FileText className="h-4 w-4 mr-1" />
-                    <span>{space.projects} projects</span>
-                  </div>
-                </div>
-              </div>
-            </Link>
+        <div className="flex flex-wrap gap-2">
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => toggleTag(tag)}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                selectedTags.includes(tag)
+                  ? 'bg-indigo-100 text-indigo-800 border border-indigo-300'
+                  : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'
+              }`}
+            >
+              {tag}
+            </button>
           ))}
         </div>
-      </main>
+      </div>
+
+      {/* Spaces grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredSpaces.map((space) => (
+          <Link
+            key={space.id}
+            to={`/open-space/${space.id}`}
+            className="bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:shadow-lg transition-shadow"
+          >
+            {/* Space image */}
+            <div className="h-48 relative">
+              <img src={space.image} alt={space.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                <h3 className="text-white text-xl font-bold p-4">{space.title}</h3>
+              </div>
+            </div>
+
+            {/* Space content */}
+            <div className="p-4">
+              <p className="text-gray-700 text-sm mb-4 line-clamp-3">{space.description}</p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {space.tags.map((tag, index) => (
+                  <span
+                    key={`${space.id}-${tag}-${index}`}
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      tag.startsWith('+')
+                        ? 'bg-gray-100 text-gray-700'
+                        : 'bg-indigo-50 text-indigo-700'
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Stats */}
+              <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center">
+                  <Users className="h-4 w-4 mr-1" />
+                  <span>{space.members.toLocaleString()} members</span>
+                </div>
+
+                <div className="flex items-center">
+                  <FileText className="h-4 w-4 mr-1" />
+                  <span>{space.projects} projects</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

@@ -217,11 +217,8 @@ const CommunityDetail: React.FC = () => {
   // Show loading indicator while content is being prepared
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-64px)]">
-          <LoadingIndicator size="md" color="indigo" message="Loading community..." />
-        </div>
+      <div className="flex items-center justify-center h-[calc(100vh-64px)]">
+        <LoadingIndicator size="md" color="indigo" message="Loading community..." />
       </div>
     );
   }
@@ -229,28 +226,23 @@ const CommunityDetail: React.FC = () => {
   // Show not found message if community doesn't exist
   if (!community) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="cb-wrapper py-12">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Community not found</h2>
-            <Link
-              to="/communities"
-              className="inline-flex items-center text-blue-600 hover:text-blue-800"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Communities
-            </Link>
-          </div>
+      <div className="cb-wrapper py-12">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Community not found</h2>
+          <Link
+            to="/communities"
+            className="inline-flex items-center text-blue-600 hover:text-blue-800"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Communities
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-
+    <>
       <div style={contentStyle}>
         {/* Back button section */}
         <div className="bg-white border-b border-gray-200">
@@ -739,7 +731,7 @@ const CommunityDetail: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
