@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import {
   Briefcase,
   ChevronRight,
@@ -12,8 +13,6 @@ import {
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { Navbar } from './Navbar';
 
 interface Community {
   id: string;
@@ -124,28 +123,56 @@ const CommunitiesPage: React.FC = () => {
     <>
       <div className="relative bg-white shadow-sm border-b border-gray-100">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
+        {/* Page header */}
         <div className="relative cb-wrapper py-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            {/* page title & desc */}
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
+                <motion.div
+                  className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg"
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0, duration: 0.2 }}
+                >
                   <Users className="h-6 w-6 text-white" />
-                </div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                </motion.div>
+                <motion.h1
+                  className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.2 }}
+                >
                   Communities
-                </h1>
-                <div className="flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
+                </motion.h1>
+                <motion.div
+                  className="flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium"
+                  initial={{ x: 20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.4, duration: 0.2 }}
+                >
                   <TrendingUp className="h-3 w-3" />
                   <span>Trending</span>
-                </div>
+                </motion.div>
               </div>
-              <p className="text-gray-600 text-lg max-w-2xl">
+              <motion.p
+                className="text-gray-600 text-lg max-w-2xl"
+                initial={{ x: 20, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.1 }}
+              >
                 Explore and join partner communities where innovation meets collaboration
-              </p>
+              </motion.p>
             </div>
 
+            {/* search, filter */}
             <div className="flex flex-col sm:flex-row gap-4 lg:min-w-96">
-              <div className="relative flex-1">
+              <motion.div
+                className="relative flex-1"
+                initial={{ x: -20, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1, duration: 0.2 }}
+              >
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
@@ -154,15 +181,25 @@ const CommunitiesPage: React.FC = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white shadow-sm"
                 />
-              </div>
+              </motion.div>
 
               <div className="flex gap-2">
-                <button className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors bg-white shadow-sm">
+                <motion.button
+                  className="flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors bg-white shadow-sm"
+                  initial={{ x: -20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.2 }}
+                >
                   <Filter className="h-4 w-4" />
                   <span className="hidden sm:inline">Filter</span>
-                </button>
+                </motion.button>
 
-                <div className="flex border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm">
+                <motion.div
+                  className="flex border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm"
+                  initial={{ x: -20, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 0.6, duration: 0.2 }}
+                >
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-2.5 transition-colors ${
@@ -183,36 +220,69 @@ const CommunitiesPage: React.FC = () => {
                   >
                     <List className="h-4 w-4" />
                   </button>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+      {/* Status bar */}
       <div className="bg-white border-b border-gray-100">
         <div className="cb-wrapper py-4">
           <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
-            <div className="flex items-center gap-2">
+            <motion.div
+              className="flex items-center gap-2"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                delay: 0.4,
+                duration: 0.2,
+              }}
+            >
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span className="font-medium">{filteredCommunities.length} Active Communities</span>
-            </div>
-            <div className="flex items-center gap-2">
+            </motion.div>
+            <motion.div
+              className="flex items-center gap-2"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                delay: 0.6,
+                duration: 0.2,
+              }}
+            >
               <Star className="h-4 w-4 text-yellow-500" />
               <span>Featured Partners</span>
-            </div>
-            <div className="flex items-center gap-2">
+            </motion.div>
+            <motion.div
+              className="flex items-center gap-2"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                delay: 0.8,
+                duration: 0.2,
+              }}
+            >
               <Users className="h-4 w-4 text-blue-500" />
               <span>{communities.reduce((sum, c) => sum + c.members, 0)}+ Members</span>
-            </div>
-            <div className="flex items-center gap-2">
+            </motion.div>
+            <motion.div
+              className="flex items-center gap-2"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{
+                delay: 1,
+                duration: 0.2,
+              }}
+            >
               <Briefcase className="h-4 w-4 text-purple-500" />
               <span>{communities.reduce((sum, c) => sum + c.projects, 0)} Active Projects</span>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
+      {/* Cards */}
       <div className="cb-wrapper py-8">
         {searchTerm && (
           <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -228,17 +298,25 @@ const CommunitiesPage: React.FC = () => {
             viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'
           }`}
         >
-          {filteredCommunities.map((community) => (
-            <div
+          {filteredCommunities.map((community, index) => (
+            <motion.div
               key={community.id}
               className={`bg-white border-2 ${
                 hoveredCommunity === community.id
                   ? 'border-blue-300 shadow-xl shadow-blue-100/50'
                   : 'border-gray-100 shadow-lg hover:shadow-xl'
-              } rounded-2xl transition-all duration-300 h-full flex flex-col hover:-translate-y-1 cursor-pointer group`}
+              } rounded-2xl h-full flex flex-col hover:-translate-y-1 cursor-pointer group`}
               onMouseEnter={() => setHoveredCommunity(community.id)}
               onMouseLeave={() => setHoveredCommunity(null)}
               onClick={() => handleCommunityClick(community.id)}
+              initial={{ x: 20, opacity: 0 }}
+              whileInView={{
+                x: 0,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.2 + index * 0.2 },
+              }}
+              whileHover={{ y: -2, transition: { duration: 0.1 } }}
+              whileTap={{ scale: 0.96 }}
             >
               <div className="relative">
                 <div className="h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-t-2xl">
@@ -327,38 +405,101 @@ const CommunitiesPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {filteredCommunities.length === 0 && (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Search className="h-12 w-12 text-gray-400" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No communities found</h3>
-            <p className="text-gray-600 mb-6">
+            <motion.div
+              className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6"
+              whileInView={{
+                scale: [1, 1.1, 1, 0.9, 1],
+                opacity: [1, 0.8, 1, 0.8, 1],
+                transition: { duration: 2, repeat: Infinity },
+              }}
+            >
+              <Search className="h-1/2 w-1/2 text-gray-400" />
+            </motion.div>
+            <motion.h3
+              className="text-xl font-semibold text-gray-900 mb-2"
+              whileInView={{
+                rotateZ: [0, 5, 0, -5, 0],
+                opacity: [0.2, 0.6, 0.4, 0.6, 1],
+                transition: { duration: 0.3, delay: 0.2 },
+              }}
+            >
+              No communities found
+            </motion.h3>
+            <motion.p
+              className="text-gray-600 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.2, delay: 0.5 },
+              }}
+            >
               Try adjusting your search terms or browse all communities.
-            </p>
-            <button
+            </motion.p>
+            <motion.button
               onClick={() => setSearchTerm('')}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.2, delay: 0.7 },
+              }}
             >
               Clear Search
-            </button>
+            </motion.button>
           </div>
         )}
 
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
-          <h2 className="text-2xl font-bold mb-4">Want to create your own community?</h2>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+        <motion.div
+          className="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.2, delay: 0.6 },
+          }}
+        >
+          <motion.h2
+            className="text-2xl font-bold mb-4"
+            initial={{ opacity: 0 }}
+            whileInView={{
+              opacity: 1,
+              transition: { duration: 0.2, delay: 0.8, type: 'spring', stiffness: 400 },
+            }}
+          >
+            Want to create your own community?
+          </motion.h2>
+          <motion.p
+            className="text-blue-100 mb-6 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{
+              opacity: 1,
+              transition: { duration: 0.2, delay: 1, type: 'spring', stiffness: 200 },
+            }}
+          >
             Join thousands of creators building amazing projects together. Start your community
             today and connect with like-minded builders.
-          </p>
-          <button className="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+          </motion.p>
+          <motion.button
+            className="px-8 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-lg hover:shadow-xl"
+            initial={{ opacity: 0 }}
+            whileInView={{
+              opacity: 1,
+              transition: { duration: 0.2, delay: 1.2, type: 'spring', stiffness: 200 },
+            }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.98 }}
+          >
             Create Community
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
     </>
   );
