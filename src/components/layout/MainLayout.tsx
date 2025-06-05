@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 import Navbar from '../community/Navbar';
+import { Footer } from './Footer';
 
 const MainLayout = () => {
   const { pathname } = useLocation();
@@ -17,6 +18,7 @@ const MainLayout = () => {
       >
         <Outlet /> {/* Renders nested routes here */}
       </main>
+      <Footer />
     </div>
   );
 };
