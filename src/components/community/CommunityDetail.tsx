@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import {
   ArrowLeft,
   Bell,
@@ -195,21 +196,48 @@ const CommunityDetail: React.FC = () => {
     switch (status) {
       case 'join':
         return (
-          <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium">
+          <motion.button
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { duration: 0.1, delay: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
             Join Community
-          </button>
+          </motion.button>
         );
       case 'request':
         return (
-          <button className="px-6 py-2 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors font-medium">
+          <motion.button
+            className="px-6 py-2 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors font-medium"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { duration: 0.1, delay: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
             Request Access
-          </button>
+          </motion.button>
         );
       case 'joined':
         return (
-          <button className="px-6 py-2 bg-gray-100 text-gray-700 rounded-md cursor-default font-medium">
+          <motion.button
+            className="px-6 py-2 bg-gray-100 text-gray-700 rounded-md cursor-default font-medium"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { duration: 0.1, delay: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
             Joined
-          </button>
+          </motion.button>
         );
     }
   };
@@ -243,10 +271,16 @@ const CommunityDetail: React.FC = () => {
 
   return (
     <>
-      <div style={contentStyle}>
+      <div className="overflow-hidden" style={contentStyle}>
         {/* Back button section */}
         <div className="bg-white border-b border-gray-200">
-          <div className="cb-wrapper py-4">
+          <motion.div
+            className="cb-wrapper py-4"
+            initial={{ x: 20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.2 }}
+            viewport={{ once: true }}
+          >
             <Link
               to="/communities"
               className="group inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-0.5 font-semibold"
@@ -254,7 +288,7 @@ const CommunityDetail: React.FC = () => {
               <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
               <span>Back to Communities</span>
             </Link>
-          </div>
+          </motion.div>
         </div>
 
         {/* Hero section with cover image and community info */}
@@ -273,10 +307,10 @@ const CommunityDetail: React.FC = () => {
           </div>
 
           {/* Community info overlay */}
-          <div className="absolute bottom-0 left-0 right-0 text-white p-6">
-            <div className="cb-wrapper flex flex-col md:flex-row md:items-end">
+          <div className="bg-white md:bg-transparent relative md:absolute bottom-0 left-0 right-0 md:text-white py-6 md:p-6">
+            <div className="cb-wrapper flex flex-col gap-4 lg:gap-2 lg:flex-row md:items-end">
               <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                <img
+                <motion.img
                   src={community.logo}
                   alt={community.name}
                   className="h-24 w-24 rounded-lg border-4 border-white shadow-sm object-cover"
@@ -284,33 +318,96 @@ const CommunityDetail: React.FC = () => {
                     e.currentTarget.src =
                       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80';
                   }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
                 />
               </div>
 
               <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2">{community.name}</h1>
-                <p className="text-white text-opacity-90 mb-4 max-w-3xl">{community.description}</p>
+                <motion.h1
+                  className="text-3xl font-bold mb-2"
+                  initial={{ opacity: 0, y: -20 }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.2, type: 'spring', stiffness: 400 },
+                  }}
+                  viewport={{ once: true }}
+                >
+                  {community.name}
+                </motion.h1>
+                <motion.p
+                  className="text-opacity-90 mb-4 max-w-3xl"
+                  initial={{ opacity: 0, scale: 0.5, y: -20 }}
+                  whileInView={{
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    transition: { duration: 0.2, delay: 0.2 },
+                  }}
+                  viewport={{ once: true }}
+                >
+                  {community.description}
+                </motion.p>
 
                 <div className="flex flex-wrap items-center gap-4 text-sm">
-                  <div className="flex items-center">
+                  <motion.div
+                    className="flex items-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.1, delay: 0.4 },
+                    }}
+                    viewport={{ once: true }}
+                  >
                     <Users className="h-4 w-4 mr-1" />
                     <span>{community.members} members</span>
-                  </div>
+                  </motion.div>
 
-                  <div className="flex items-center">
+                  <motion.div
+                    className="flex items-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.1, delay: 0.5 },
+                    }}
+                    viewport={{ once: true }}
+                  >
                     <Briefcase className="h-4 w-4 mr-1" />
                     <span>{community.projects} projects</span>
-                  </div>
+                  </motion.div>
 
                   {community.createdAt && (
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { duration: 0.1, delay: 0.6 },
+                      }}
+                      viewport={{ once: true }}
+                    >
                       <Calendar className="h-4 w-4 mr-1" />
                       <span>Created {formatDate(community.createdAt)}</span>
-                    </div>
+                    </motion.div>
                   )}
 
                   {community.website && (
-                    <div className="flex items-center">
+                    <motion.div
+                      className="flex items-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { duration: 0.1, delay: 0.7 },
+                      }}
+                      viewport={{ once: true }}
+                    >
                       <Globe className="h-4 w-4 mr-1" />
                       <a
                         href={community.website}
@@ -320,17 +417,24 @@ const CommunityDetail: React.FC = () => {
                       >
                         Website
                       </a>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               </div>
 
-              <div className="mt-6 md:mt-0 flex flex-col md:flex-row items-center gap-3">
+              <div className="mt-6 md:mt-0 flex flex-wrap flex-row items-center gap-3">
                 {renderJoinButton(community.joinStatus)}
 
-                <button
+                <motion.button
                   onClick={toggleSubscription}
-                  className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors"
+                  className="flex items-center px-4 py-2 bg-black/10 hover:bg-black/20 md:bg-white/20 hover:md:bg-white/30 rounded-md transition-colors"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { duration: 0.1, delay: 0.3 },
+                  }}
+                  viewport={{ once: true }}
                 >
                   {isSubscribed ? (
                     <>
@@ -343,22 +447,41 @@ const CommunityDetail: React.FC = () => {
                       <span>Subscribe</span>
                     </>
                   )}
-                </button>
+                </motion.button>
 
-                <button className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors">
+                <motion.button
+                  className="flex items-center px-4 py-2 bg-black/10 hover:bg-black/20 md:bg-white/20 hover:md:bg-white/30 rounded-md transition-colors"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { duration: 0.1, delay: 0.4 },
+                  }}
+                  viewport={{ once: true }}
+                >
                   <Share2 className="h-4 w-4 mr-2" />
                   <span>Share</span>
-                </button>
+                </motion.button>
 
                 {community.name === 'EcoTech Innovators' && (
-                  <Link
-                    to={`/community/${communityId}/edit`}
-                    className="flex items-center px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md transition-colors"
-                    title="Edit Community"
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{
+                      opacity: 1,
+                      x: 0,
+                      transition: { duration: 0.1, delay: 0.5 },
+                    }}
+                    viewport={{ once: true }}
                   >
-                    <Edit className="h-4 w-4 mr-2" />
-                    <span>Edit</span>
-                  </Link>
+                    <Link
+                      to={`/community/${communityId}/edit`}
+                      className="flex items-center px-4 py-2 bg-black/10 hover:bg-black/20 md:bg-white/20 hover:md:bg-white/30 rounded-md transition-colors"
+                      title="Edit Community"
+                    >
+                      <Edit className="h-4 w-4 mr-2" />
+                      <span>Edit</span>
+                    </Link>
+                  </motion.div>
                 )}
               </div>
             </div>
@@ -371,7 +494,16 @@ const CommunityDetail: React.FC = () => {
             {/* Left sidebar */}
             <div className="lg:col-span-1">
               {/* About section - Changed from amber/orange to blue-purple */}
-              <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden">
+              <motion.div
+                className="bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.2, delay: 0.2 },
+                }}
+                viewport={{ once: true }}
+              >
                 {/* Decorative background elements */}
                 <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full -translate-y-14 translate-x-14"></div>
                 <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-indigo-200/20 to-blue-200/20 rounded-full translate-y-10 -translate-x-10"></div>
@@ -466,10 +598,16 @@ const CommunityDetail: React.FC = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Members preview - Enhanced Design */}
-              <div className="bg-gradient-to-br from-blue-50 via-white to-cyan-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden">
+              <motion.div
+                className="bg-gradient-to-br from-blue-50 via-white to-cyan-50 rounded-xl shadow-lg border border-blue-100 p-6 mb-6 relative overflow-hidden"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.2 }}
+                viewport={{ once: true, amount: 'some' }}
+              >
                 {/* Decorative background elements */}
                 <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-200/30 to-cyan-200/30 rounded-full -translate-y-14 translate-x-14"></div>
                 <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-sky-200/20 to-blue-200/20 rounded-full translate-y-10 -translate-x-10"></div>
@@ -514,10 +652,16 @@ const CommunityDetail: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Upcoming Events Gallery - Enhanced Design */}
-              <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-xl shadow-lg border border-indigo-100 p-6 relative overflow-hidden">
+              <motion.div
+                className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-xl shadow-lg border border-indigo-100 p-6 relative overflow-hidden"
+                initial={{ y: 20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.2 }}
+                viewport={{ once: true, amount: 'some' }}
+              >
                 {/* Decorative background elements */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full -translate-y-16 translate-x-16"></div>
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-200/20 to-indigo-200/20 rounded-full translate-y-12 -translate-x-12"></div>
@@ -538,24 +682,33 @@ const CommunityDetail: React.FC = () => {
                     <EventCardGallery />
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Main content area */}
             <div className="lg:col-span-2">
               {/* Projects section - Enhanced Design */}
-              <div className="bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 rounded-xl shadow-lg border border-violet-100 p-6 mb-6 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 rounded-xl shadow-lg border border-violet-100 px-4 py-6 md:p-6 mb-6 relative overflow-hidden">
                 {/* Decorative background elements */}
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-br from-violet-200/30 to-fuchsia-200/30 rounded-full -translate-y-18 translate-x-18"></div>
                 <div className="absolute bottom-0 left-0 w-28 h-28 bg-gradient-to-tr from-purple-200/20 to-violet-200/20 rounded-full translate-y-14 -translate-x-14"></div>
 
                 <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6">
+                  <motion.div
+                    className="flex gap-3 flex-col md:flex-row justify-between items-center mb-6"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.1, delay: 0.4 },
+                    }}
+                    viewport={{ once: true }}
+                  >
                     <h2 className="text-xl font-bold bg-gradient-to-r from-violet-700 to-fuchsia-700 bg-clip-text text-transparent">
                       Community Projects
                     </h2>
 
-                    <div className="flex space-x-4">
+                    <div className="flex flex-wrap justify-end gap-4">
                       <select
                         className="border border-violet-200 rounded-lg px-3 py-1.5 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
                         value={selectedCategory}
@@ -578,68 +731,75 @@ const CommunityDetail: React.FC = () => {
                         <option>Most Commented</option>
                       </select>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-sm">
-                    {/* Featured project */}
-                    <div className="mb-8">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Featured Project</h3>
+                  {/* Featured project */}
+                  <motion.div
+                    className="mb-8"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.2, delay: 0.6 },
+                    }}
+                    viewport={{ once: true }}
+                  >
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Featured Project</h3>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="md:col-span-1">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="md:col-span-1">
+                        <img
+                          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                          alt="Featured Project"
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                      </div>
+
+                      <div className="md:col-span-2">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          AI-Powered Task Manager
+                        </h3>
+
+                        <p className="text-gray-600 mb-4">
+                          A task management app that uses AI to prioritize and suggest tasks based
+                          on your work patterns and deadlines. The system learns from your habits
+                          and helps you focus on what matters most.
+                        </p>
+
+                        <div className="flex items-center mb-4">
                           <img
-                            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            alt="Featured Project"
-                            className="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
+                            alt="Alex Johnson"
+                            className="h-8 w-8 rounded-full mr-2"
                           />
+                          <span className="text-sm text-gray-700">Alex Johnson</span>
                         </div>
 
-                        <div className="md:col-span-2">
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">
-                            AI-Powered Task Manager
-                          </h3>
-
-                          <p className="text-gray-600 mb-4">
-                            A task management app that uses AI to prioritize and suggest tasks based
-                            on your work patterns and deadlines. The system learns from your habits
-                            and helps you focus on what matters most.
-                          </p>
-
-                          <div className="flex items-center mb-4">
-                            <img
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-                              alt="Alex Johnson"
-                              className="h-8 w-8 rounded-full mr-2"
-                            />
-                            <span className="text-sm text-gray-700">Alex Johnson</span>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
-                              AI
-                            </span>
-                            <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
-                              Productivity
-                            </span>
-                            <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
-                              React
-                            </span>
-                          </div>
-
-                          <Link
-                            to="/community/project/1"
-                            className="mt-4 inline-block px-4 py-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white rounded-lg hover:from-violet-700 hover:to-fuchsia-700 transition-colors"
-                          >
-                            View Project
-                          </Link>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
+                            AI
+                          </span>
+                          <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
+                            Productivity
+                          </span>
+                          <span className="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm">
+                            React
+                          </span>
                         </div>
+
+                        <Link
+                          to="/community/project/1"
+                          className="mt-4 inline-block px-4 py-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white rounded-lg hover:from-violet-700 hover:to-fuchsia-700 transition-colors"
+                        >
+                          View Project
+                        </Link>
                       </div>
                     </div>
+                  </motion.div>
 
-                    {/* Project feed */}
-                    <FilterBar />
-                    <ProjectFeed categoryFilter={selectedCategory} sortOption={sortOption} />
-                  </div>
+                  {/* Project feed */}
+                  <FilterBar />
+                  <ProjectFeed categoryFilter={selectedCategory} sortOption={sortOption} />
                 </div>
               </div>
 
@@ -650,7 +810,16 @@ const CommunityDetail: React.FC = () => {
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-zinc-200/20 to-slate-200/20 rounded-full translate-y-12 -translate-x-12"></div>
 
                 <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-6">
+                  <motion.div
+                    className="flex justify-between items-center mb-6"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.1, delay: 0.2 },
+                    }}
+                    viewport={{ once: true }}
+                  >
                     <h2 className="text-xl font-bold bg-gradient-to-r from-slate-700 to-gray-700 bg-clip-text text-transparent">
                       Recent Discussions
                     </h2>
@@ -661,14 +830,18 @@ const CommunityDetail: React.FC = () => {
                     >
                       View all
                     </Link>
-                  </div>
+                  </motion.div>
 
                   <div className="bg-white/70 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-sm">
                     <div className="space-y-4">
                       {[...Array(3)].map((_, index) => (
-                        <div
+                        <motion.div
                           key={index}
                           className="border-b border-gray-200 pb-4 last:border-0 last:pb-0"
+                          initial={{ y: 20, opacity: 0 }}
+                          whileInView={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.2 + 0.1 * index, duration: 0.1 }}
+                          viewport={{ once: true }}
                         >
                           <Link
                             to={`/community/${community.id}/discussion/${index + 1}`}
@@ -712,18 +885,24 @@ const CommunityDetail: React.FC = () => {
                               <span>{(index + 1) * 3} replies</span>
                             </div>
                           </Link>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
 
-                    <div className="mt-6">
+                    <motion.div
+                      className="mt-6"
+                      initial={{ scale: 0.6, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.2, duration: 0.2, type: 'spring', stiffness: 400 }}
+                      viewport={{ once: true }}
+                    >
                       <Link
                         to={`/community/${community.id}/discussions/new`}
                         className="block w-full text-center px-4 py-2 bg-gradient-to-r from-slate-600 to-gray-600 text-white rounded-md hover:from-slate-700 hover:to-gray-700 transition-colors"
                       >
                         Start a Discussion
                       </Link>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
               </div>

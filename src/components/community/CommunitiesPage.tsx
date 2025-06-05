@@ -134,6 +134,7 @@ const CommunitiesPage: React.FC = () => {
                   initial={{ x: 20, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0, duration: 0.2 }}
+                  viewport={{ once: true }}
                 >
                   <Users className="h-6 w-6 text-white" />
                 </motion.div>
@@ -142,6 +143,7 @@ const CommunitiesPage: React.FC = () => {
                   initial={{ x: 20, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.2 }}
+                  viewport={{ once: true }}
                 >
                   Communities
                 </motion.h1>
@@ -150,6 +152,7 @@ const CommunitiesPage: React.FC = () => {
                   initial={{ x: 20, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.4, duration: 0.2 }}
+                  viewport={{ once: true }}
                 >
                   <TrendingUp className="h-3 w-3" />
                   <span>Trending</span>
@@ -160,18 +163,20 @@ const CommunitiesPage: React.FC = () => {
                 initial={{ x: 20, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.1 }}
+                viewport={{ once: true }}
               >
                 Explore and join partner communities where innovation meets collaboration
               </motion.p>
             </div>
 
             {/* search, filter */}
-            <div className="flex flex-col sm:flex-row gap-4 lg:min-w-96">
+            <div className="flex flex-col sm:flex-row items-end gap-4 lg:min-w-96">
               <motion.div
-                className="relative flex-1"
+                className="relative flex-1 w-full sm:w-auto"
                 initial={{ x: -20, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1, duration: 0.2 }}
+                viewport={{ once: true }}
               >
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
@@ -189,6 +194,7 @@ const CommunitiesPage: React.FC = () => {
                   initial={{ x: -20, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.8, duration: 0.2 }}
+                  viewport={{ once: true }}
                 >
                   <Filter className="h-4 w-4" />
                   <span className="hidden sm:inline">Filter</span>
@@ -199,6 +205,7 @@ const CommunitiesPage: React.FC = () => {
                   initial={{ x: -20, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.6, duration: 0.2 }}
+                  viewport={{ once: true }}
                 >
                   <button
                     onClick={() => setViewMode('grid')}
@@ -238,6 +245,7 @@ const CommunitiesPage: React.FC = () => {
                 delay: 0.4,
                 duration: 0.2,
               }}
+              viewport={{ once: true }}
             >
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
               <span className="font-medium">{filteredCommunities.length} Active Communities</span>
@@ -250,6 +258,7 @@ const CommunitiesPage: React.FC = () => {
                 delay: 0.6,
                 duration: 0.2,
               }}
+              viewport={{ once: true }}
             >
               <Star className="h-4 w-4 text-yellow-500" />
               <span>Featured Partners</span>
@@ -262,6 +271,7 @@ const CommunitiesPage: React.FC = () => {
                 delay: 0.8,
                 duration: 0.2,
               }}
+              viewport={{ once: true }}
             >
               <Users className="h-4 w-4 text-blue-500" />
               <span>{communities.reduce((sum, c) => sum + c.members, 0)}+ Members</span>
@@ -274,6 +284,7 @@ const CommunitiesPage: React.FC = () => {
                 delay: 1,
                 duration: 0.2,
               }}
+              viewport={{ once: true }}
             >
               <Briefcase className="h-4 w-4 text-purple-500" />
               <span>{communities.reduce((sum, c) => sum + c.projects, 0)} Active Projects</span>
@@ -317,6 +328,7 @@ const CommunitiesPage: React.FC = () => {
               }}
               whileHover={{ y: -2, transition: { duration: 0.1 } }}
               whileTap={{ scale: 0.96 }}
+              viewport={{ once: true }}
             >
               <div className="relative">
                 <div className="h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-t-2xl">
@@ -418,6 +430,7 @@ const CommunitiesPage: React.FC = () => {
                 opacity: [1, 0.8, 1, 0.8, 1],
                 transition: { duration: 2, repeat: Infinity },
               }}
+              viewport={{ once: true }}
             >
               <Search className="h-1/2 w-1/2 text-gray-400" />
             </motion.div>
@@ -428,6 +441,7 @@ const CommunitiesPage: React.FC = () => {
                 opacity: [0.2, 0.6, 0.4, 0.6, 1],
                 transition: { duration: 0.3, delay: 0.2 },
               }}
+              viewport={{ once: true }}
             >
               No communities found
             </motion.h3>
@@ -439,6 +453,7 @@ const CommunitiesPage: React.FC = () => {
                 y: 0,
                 transition: { duration: 0.2, delay: 0.5 },
               }}
+              viewport={{ once: true }}
             >
               Try adjusting your search terms or browse all communities.
             </motion.p>
@@ -451,6 +466,7 @@ const CommunitiesPage: React.FC = () => {
                 y: 0,
                 transition: { duration: 0.2, delay: 0.7 },
               }}
+              viewport={{ once: true }}
             >
               Clear Search
             </motion.button>
@@ -465,6 +481,7 @@ const CommunitiesPage: React.FC = () => {
             y: 0,
             transition: { duration: 0.2, delay: 0.6 },
           }}
+          viewport={{ once: true }}
         >
           <motion.h2
             className="text-2xl font-bold mb-4"
@@ -473,6 +490,7 @@ const CommunitiesPage: React.FC = () => {
               opacity: 1,
               transition: { duration: 0.2, delay: 0.8, type: 'spring', stiffness: 400 },
             }}
+            viewport={{ once: true }}
           >
             Want to create your own community?
           </motion.h2>
@@ -483,6 +501,7 @@ const CommunitiesPage: React.FC = () => {
               opacity: 1,
               transition: { duration: 0.2, delay: 1, type: 'spring', stiffness: 200 },
             }}
+            viewport={{ once: true }}
           >
             Join thousands of creators building amazing projects together. Start your community
             today and connect with like-minded builders.
@@ -496,6 +515,7 @@ const CommunitiesPage: React.FC = () => {
             }}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.98 }}
+            viewport={{ once: true }}
           >
             Create Community
           </motion.button>

@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="px-4 py-4 md:py-6 lg:py-8 border-t border-gray-200 relative z-10 overflow-hidden">
-      <div className="container mx-auto flex flex-col-reverse md:flex-row gap-4 justify-between items-center">
+      <div className="cb-wrapper flex flex-col-reverse md:flex-row gap-4 justify-between items-center">
         <motion.div
           className="flex flex-row items-start"
           initial={{ x: -20, opacity: 0 }}

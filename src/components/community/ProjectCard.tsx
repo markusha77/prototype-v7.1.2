@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Eye, Heart, MessageSquare } from 'lucide-react';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -53,7 +54,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <div
+    <motion.div
       className="bg-white rounded-2xl border border-gray-200/60 hover:border-purple-300/70 overflow-hidden cursor-pointer transition-all duration-300"
       style={{
         boxShadow: '0 2px 8px -2px rgba(0, 0, 0, 0.1), 0 4px 16px -4px rgba(147, 51, 234, 0.15)',
@@ -70,6 +71,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         e.currentTarget.style.transform = 'translateY(0px)';
       }}
       onClick={handleCardClick}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{
+        opacity: 1,
+        scale: 1,
+        transition: { duration: 0.2 },
+      }}
+      viewport={{ once: true }}
     >
       <div className="h-48 overflow-hidden relative">
         <img
@@ -173,6 +181,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
