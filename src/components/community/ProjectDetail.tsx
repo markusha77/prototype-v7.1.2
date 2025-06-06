@@ -457,7 +457,7 @@ const ProjectDetail: React.FC = () => {
         </div>
 
         <motion.div
-          className="flex items-center space-x-6 text-gray-500"
+          className="flex flex-col md:flex-row gap-2 md:gap-6 items-end md:items-center text-gray-500"
           initial={{ opacity: 0, x: 40 }}
           whileInView={{
             opacity: 1,
@@ -490,7 +490,7 @@ const ProjectDetail: React.FC = () => {
         <motion.img
           src={project.image}
           alt={project.title}
-          className="w-full min-h-[300px]"
+          className="w-full lg:min-h-[300px]"
           onError={(e) => {
             // Fallback image if the project image fails to load
             e.currentTarget.src =

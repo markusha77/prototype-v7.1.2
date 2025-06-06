@@ -1,8 +1,7 @@
+import { motion } from 'framer-motion';
 import { FileText, Search, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { Navbar } from './Navbar';
 
 // Define the space type
 interface Space {
@@ -133,15 +132,44 @@ const OpenSpacesPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Explore Open Spaces</h1>
-          <p className="text-gray-600 mt-1">
+          <motion.h1
+            className="text-3xl font-bold text-gray-900"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: 0.2, type: 'spring', stiffness: 400 },
+            }}
+            viewport={{ once: true }}
+          >
+            Explore Open Spaces
+          </motion.h1>
+          <motion.p
+            className="text-gray-600 mt-1"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0.3, duration: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
             Join interest-based spaces to connect, learn, and collaborate
-          </p>
+          </motion.p>
         </div>
 
         {/* Search bar */}
         <div className="mt-4 md:mt-0 w-full md:w-auto">
-          <div className="relative">
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0.4, duration: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
             </div>
@@ -152,13 +180,22 @@ const OpenSpacesPage: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Filter section */}
       <div className="mb-8">
-        <div className="flex items-center mb-3">
+        <motion.div
+          className="flex items-center mb-3"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            transition: { delay: 0.2, duration: 0.2 },
+          }}
+          viewport={{ once: true }}
+        >
           <div className="mr-2 text-gray-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -174,11 +211,11 @@ const OpenSpacesPage: React.FC = () => {
             </svg>
           </div>
           <span className="font-medium text-gray-700">Filter by tags:</span>
-        </div>
+        </motion.div>
 
         <div className="flex flex-wrap gap-2">
-          {allTags.map((tag) => (
-            <button
+          {allTags.map((tag, index) => (
+            <motion.button
               key={tag}
               onClick={() => toggleTag(tag)}
               className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
@@ -186,63 +223,78 @@ const OpenSpacesPage: React.FC = () => {
                   ? 'bg-indigo-100 text-indigo-800 border border-indigo-300'
                   : 'bg-gray-100 text-gray-800 border border-gray-200 hover:bg-gray-200'
               }`}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 0.2 + index * 0.1, duration: 0.12 },
+              }}
+              viewport={{ once: true }}
             >
               {tag}
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>
 
       {/* Spaces grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredSpaces.map((space) => (
-          <Link
-            key={space.id}
-            to={`/open-space/${space.id}`}
+        {filteredSpaces.map((space, index) => (
+          <motion.div
+            key={index}
             className="bg-white rounded-lg overflow-hidden shadow border border-gray-200 hover:shadow-lg transition-shadow"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { delay: 0.2 + index * 0.18, duration: 0.2 },
+            }}
+            viewport={{ once: true }}
           >
-            {/* Space image */}
-            <div className="h-48 relative">
-              <img src={space.image} alt={space.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                <h3 className="text-white text-xl font-bold p-4">{space.title}</h3>
-              </div>
-            </div>
-
-            {/* Space content */}
-            <div className="p-4">
-              <p className="text-gray-700 text-sm mb-4 line-clamp-3">{space.description}</p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {space.tags.map((tag, index) => (
-                  <span
-                    key={`${space.id}-${tag}-${index}`}
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      tag.startsWith('+')
-                        ? 'bg-gray-100 text-gray-700'
-                        : 'bg-indigo-50 text-indigo-700'
-                    }`}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* Stats */}
-              <div className="flex items-center justify-between text-sm text-gray-600">
-                <div className="flex items-center">
-                  <Users className="h-4 w-4 mr-1" />
-                  <span>{space.members.toLocaleString()} members</span>
-                </div>
-
-                <div className="flex items-center">
-                  <FileText className="h-4 w-4 mr-1" />
-                  <span>{space.projects} projects</span>
+            <Link key={space.id} to={`/open-space/${space.id}`} className="h-full">
+              {/* Space image */}
+              <div className="h-48 relative">
+                <img src={space.image} alt={space.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                  <h3 className="text-white text-xl font-bold p-4">{space.title}</h3>
                 </div>
               </div>
-            </div>
-          </Link>
+
+              {/* Space content */}
+              <div className="p-4">
+                <p className="text-gray-700 text-sm mb-4 line-clamp-3">{space.description}</p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {space.tags.map((tag, index) => (
+                    <span
+                      key={`${space.id}-${tag}-${index}`}
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        tag.startsWith('+')
+                          ? 'bg-gray-100 text-gray-700'
+                          : 'bg-indigo-50 text-indigo-700'
+                      }`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Stats */}
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                  <div className="flex items-center">
+                    <Users className="h-4 w-4 mr-1" />
+                    <span>{space.members.toLocaleString()} members</span>
+                  </div>
+
+                  <div className="flex items-center">
+                    <FileText className="h-4 w-4 mr-1" />
+                    <span>{space.projects} projects</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
         ))}
       </div>
     </div>
