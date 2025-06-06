@@ -1,5 +1,5 @@
+import { motion } from 'framer-motion';
 import {
-  ArrowLeft,
   Calendar,
   ExternalLink,
   Eye,
@@ -12,14 +12,12 @@ import {
   Twitter,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import useContentLoader from '../../hooks/useContentLoader';
 import { formatDate } from '../../utils/dateUtils';
-import { saveScrollPosition } from '../../utils/scrollUtils';
 import LoadingIndicator from '../common/LoadingIndicator';
 import BackToProjectsButton from '../navigation/BackToProjectsButton';
-import { Navbar } from './Navbar';
 
 // Mock comments data
 const mockComments = [
@@ -75,11 +73,10 @@ const mockComments = [
 
 const ProjectDetail: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
-  const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
 
   // Use the content loader hook to manage loading state and scrolling
-  const { isLoading, isContentReady, contentStyle, prepareContent } = useContentLoader({
+  const { isLoading, contentStyle, prepareContent } = useContentLoader({
     scrollToTop: true,
     scrollDelay: 100,
     loadingDelay: 200,
@@ -327,24 +324,67 @@ const ProjectDetail: React.FC = () => {
     /* Main content with fade-in effect */
     <div style={contentStyle} className="max-w-4xl mx-auto px-4 py-8">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-6 mb-8 text-white">
+      <motion.div
+        className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-6 mb-8 text-white bg-[length:120%_120%]"
+        initial={{ backgroundPosition: '0% 50%' }}
+        animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: 'linear',
+        }}
+      >
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl md:text-3xl font-bold">{project.title}</h1>
+          <motion.h1
+            className="text-2xl md:text-3xl font-bold"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0, duration: 0.2, type: 'spring', stiffness: 400 },
+            }}
+            viewport={{ once: true }}
+          >
+            {project.title}
+          </motion.h1>
           <div className="flex items-center space-x-2">
-            <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+            <motion.span
+              className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1, transition: { delay: 0.2, duration: 0.5 } }}
+              viewport={{ once: true }}
+            >
               {project.category || project.tags[0]}
-            </span>
+            </motion.span>
           </div>
         </div>
-        <p className="mt-2 text-indigo-100 max-w-2xl">{project.description}</p>
+        <motion.p
+          className="mt-2 text-indigo-100 max-w-2xl"
+          initial={{ opacity: 0, scale: 0.9, y: -20 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0, transition: { delay: 0.2, duration: 0.2 } }}
+          viewport={{ once: true }}
+        >
+          {project.description}
+        </motion.p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span key={tag} className="px-2 py-1 bg-white bg-opacity-10 rounded-full text-xs">
+          {project.tags.map((tag, index) => (
+            <motion.span
+              key={tag}
+              className="px-2 py-1 bg-white bg-opacity-10 rounded-full text-xs"
+              initial={{ opacity: 0, x: 20, scale: 0.6 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                scale: 1,
+                transition: { delay: 0.4 + index * 0.15, duration: 0.15 },
+              }}
+              viewport={{ once: true }}
+            >
               {tag}
-            </span>
+            </motion.span>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* Back button - Using our new component */}
       <div className="mb-6">
@@ -358,26 +398,74 @@ const ProjectDetail: React.FC = () => {
       {/* Project header */}
       <div className="mb-8">
         <div className="flex items-center mb-6">
-          <img
+          <motion.img
             src={project.author.avatar}
             alt={project.author.name}
             className="h-10 w-10 rounded-full mr-3"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{
+              opacity: 1,
+              scale: 1,
+              transition: { delay: 0.1, duration: 0.6 },
+            }}
+            viewport={{ once: true }}
           />
           <div>
-            <p className="font-medium text-gray-900">{project.author.name}</p>
-            <p className="text-sm text-gray-500">{project.author.bio}</p>
+            <motion.p
+              className="font-medium text-gray-900"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 0.1, duration: 0.15 },
+              }}
+              viewport={{ once: true }}
+            >
+              {project.author.name}
+            </motion.p>
+            <motion.p
+              className="text-sm text-gray-500"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 0.35, duration: 0.15 },
+              }}
+              viewport={{ once: true }}
+            >
+              {project.author.bio}
+            </motion.p>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((tag) => (
-            <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+          {project.tags.map((tag, index) => (
+            <motion.span
+              key={tag}
+              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 0.5 + index * 0.15, duration: 0.15 },
+              }}
+              viewport={{ once: true }}
+            >
               {tag}
-            </span>
+            </motion.span>
           ))}
         </div>
 
-        <div className="flex items-center space-x-6 text-gray-500">
+        <motion.div
+          className="flex items-center space-x-6 text-gray-500"
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+            transition: { delay: 0.6, duration: 0.2 },
+          }}
+          viewport={{ once: true }}
+        >
           <div className="flex items-center">
             <Calendar className="h-4 w-4 mr-1" />
             <span className="text-sm">Created {formatDate(project.createdAt)}</span>
@@ -394,42 +482,91 @@ const ProjectDetail: React.FC = () => {
             <Eye className="h-4 w-4 mr-1" />
             <span className="text-sm">{project.views} views</span>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Main image */}
       <div className="mb-8 rounded-lg overflow-hidden shadow-md">
-        <img
+        <motion.img
           src={project.image}
           alt={project.title}
-          className="w-full h-auto"
+          className="w-full min-h-[300px]"
           onError={(e) => {
             // Fallback image if the project image fails to load
             e.currentTarget.src =
               'https://images.unsplash.com/photo-1555421689-3f034debb7a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
           }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{
+            opacity: 1,
+            scale: 1,
+            transition: { delay: 0.2, duration: 0.4 },
+          }}
+          viewport={{ once: true }}
         />
       </div>
 
       {/* Project details */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <div className="md:col-span-2">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">About this project</h2>
+          <motion.h2
+            className="text-xl font-bold text-gray-900 mb-4"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0, duration: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
+            About this project
+          </motion.h2>
           <div className="prose prose-indigo max-w-none">
-            <p className="text-gray-700 mb-6">{project.longDescription}</p>
+            <motion.p
+              className="text-gray-700 mb-6"
+              initial={{ opacity: 0, scale: 0.95, y: -20 }}
+              whileInView={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                transition: { delay: 0.2, duration: 0.2 },
+              }}
+              viewport={{ once: true }}
+            >
+              {project.longDescription}
+            </motion.p>
           </div>
 
           {project.techStack && project.techStack.length > 0 && (
             <div className="mt-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Technologies used</h3>
+              <motion.h3
+                className="text-lg font-semibold text-gray-900 mb-3"
+                initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                whileInView={{
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                  transition: { delay: 0.3, duration: 0.2 },
+                }}
+                viewport={{ once: true }}
+              >
+                Technologies used
+              </motion.h3>
               <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
-                  <span
+                {project.techStack.map((tech, index) => (
+                  <motion.span
                     key={tech}
                     className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{
+                      opacity: 1,
+                      x: 0,
+                      transition: { delay: 0.3 + index * 0.15, duration: 0.15 },
+                    }}
+                    viewport={{ once: true }}
                   >
                     {tech}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </div>
@@ -437,19 +574,37 @@ const ProjectDetail: React.FC = () => {
 
           {project.screenshots && project.screenshots.length > 1 && (
             <div className="mt-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Screenshots</h3>
+              <motion.h3
+                className="text-lg font-semibold text-gray-900 mb-3"
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  transition: { delay: 0.1, duration: 0.2 },
+                }}
+                viewport={{ once: true }}
+              >
+                Screenshots
+              </motion.h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {project.screenshots.slice(1).map((screenshot, index) => (
-                  <div key={index} className="rounded-lg overflow-hidden shadow-sm">
-                    <img
+                  <div key={index} className="h-full rounded-lg overflow-hidden shadow-sm">
+                    <motion.img
                       src={screenshot}
                       alt={`${project.title} screenshot ${index + 1}`}
-                      className="w-full h-auto"
+                      className="w-full h-auto sm:h-full object-cover"
                       onError={(e) => {
                         // Fallback image if screenshot fails to load
                         e.currentTarget.src =
                           'https://images.unsplash.com/photo-1555421689-3f034debb7a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
                       }}
+                      initial={{ opacity: 0, scale: 0.92 }}
+                      whileInView={{
+                        opacity: 1,
+                        scale: 1,
+                        transition: { delay: 0.3 + index * 0.15, duration: 0.15 },
+                      }}
+                      viewport={{ once: true }}
                     />
                   </div>
                 ))}
@@ -458,53 +613,120 @@ const ProjectDetail: React.FC = () => {
           )}
         </div>
 
-        <div>
+        <div className="sticky top-16 h-fit">
           <div className="bg-gray-50 rounded-lg p-6 mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Project Stats</h3>
+            <motion.h3
+              className="text-lg font-semibold text-gray-900 mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: { delay: 0.2, duration: 0.2 },
+              }}
+              viewport={{ once: true }}
+            >
+              Project Stats
+            </motion.h3>
 
             <div className="space-y-3">
-              <div className="flex justify-between items-center">
+              <motion.div
+                className="flex justify-between items-center"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: { delay: 0.4, duration: 0.15 },
+                }}
+                viewport={{ once: true }}
+              >
                 <span className="text-gray-600">Likes</span>
                 <div className="flex items-center">
                   <Heart className="h-4 w-4 mr-1 text-red-500" />
                   <span>{project.likes}</span>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex justify-between items-center">
+              <motion.div
+                className="flex justify-between items-center"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: { delay: 0.55, duration: 0.15 },
+                }}
+                viewport={{ once: true }}
+              >
                 <span className="text-gray-600">Comments</span>
                 <div className="flex items-center">
                   <MessageSquare className="h-4 w-4 mr-1 text-blue-500" />
                   <span>{project.comments}</span>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex justify-between items-center">
+              <motion.div
+                className="flex justify-between items-center"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: { delay: 0.7, duration: 0.15 },
+                }}
+                viewport={{ once: true }}
+              >
                 <span className="text-gray-600">Views</span>
                 <div className="flex items-center">
                   <Eye className="h-4 w-4 mr-1 text-green-500" />
                   <span>{project.views}</span>
                 </div>
-              </div>
+              </motion.div>
 
               {project.remixes !== undefined && (
-                <div className="flex justify-between items-center">
+                <motion.div
+                  className="flex justify-between items-center"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: 0.85, duration: 0.15 },
+                  }}
+                  viewport={{ once: true }}
+                >
                   <span className="text-gray-600">Remixes</span>
                   <span>{project.remixes}</span>
-                </div>
+                </motion.div>
               )}
 
               {project.followers !== undefined && (
-                <div className="flex justify-between items-center">
+                <motion.div
+                  className="flex justify-between items-center"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: project.remixes !== undefined ? 1 : 0.85, duration: 0.15 },
+                  }}
+                  viewport={{ once: true }}
+                >
                   <span className="text-gray-600">Followers</span>
                   <span>{project.followers}</span>
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
 
           <div className="bg-gray-50 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Links</h3>
+            <motion.h3
+              className="text-lg font-semibold text-gray-900 mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                transition: { delay: 0.2, duration: 0.2 },
+              }}
+              viewport={{ once: true }}
+            >
+              Links
+            </motion.h3>
 
             <div className="space-y-3">
               {project.demoUrl && (
@@ -520,51 +742,79 @@ const ProjectDetail: React.FC = () => {
               )}
 
               {project.githubUrl && (
-                <a
+                <motion.a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-indigo-600 hover:text-indigo-800"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: 0.2, duration: 0.2 },
+                  }}
+                  viewport={{ once: true }}
                 >
                   <Github className="h-4 w-4 mr-2" />
                   <span>Source Code</span>
-                </a>
+                </motion.a>
               )}
 
               {project.websiteUrl && (
-                <a
+                <motion.a
                   href={project.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-indigo-600 hover:text-indigo-800"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: 0.3, duration: 0.2 },
+                  }}
+                  viewport={{ once: true }}
                 >
                   <Globe className="h-4 w-4 mr-2" />
                   <span>Website</span>
-                </a>
+                </motion.a>
               )}
 
               {project.twitterUrl && (
-                <a
+                <motion.a
                   href={project.twitterUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-indigo-600 hover:text-indigo-800"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: 0.4, duration: 0.2 },
+                  }}
+                  viewport={{ once: true }}
                 >
                   <Twitter className="h-4 w-4 mr-2" />
                   <span>Twitter</span>
-                </a>
+                </motion.a>
               )}
 
               {project.linkedinUrl && (
-                <a
+                <motion.a
                   href={project.linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-indigo-600 hover:text-indigo-800"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    transition: { delay: 0.5, duration: 0.2 },
+                  }}
+                  viewport={{ once: true }}
                 >
                   <Linkedin className="h-4 w-4 mr-2" />
                   <span>LinkedIn</span>
-                </a>
+                </motion.a>
               )}
             </div>
           </div>
@@ -573,11 +823,32 @@ const ProjectDetail: React.FC = () => {
 
       {/* Comments section */}
       <div className="mb-12">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Comments ({mockComments.length})</h2>
+        <motion.h2
+          className="text-xl font-bold text-gray-900 mb-6"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+            transition: { delay: 0.2, duration: 0.2 },
+          }}
+          viewport={{ once: true }}
+        >
+          Comments ({mockComments.length})
+        </motion.h2>
 
         <div className="space-y-6">
-          {mockComments.map((comment) => (
-            <div key={comment.id} className="bg-white p-4 rounded-lg shadow-sm">
+          {mockComments.map((comment, index) => (
+            <motion.div
+              key={comment.id}
+              className="py-4 rounded-lg shadow-sm"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                transition: { delay: 0.2 + index * 0.1, duration: 0.1 },
+              }}
+              viewport={{ once: true }}
+            >
               <div className="flex items-start">
                 <img
                   src={comment.author.avatar}
@@ -606,14 +877,25 @@ const ProjectDetail: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Comment form */}
         <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Leave a comment</h3>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
+          <motion.h3
+            className="text-lg font-semibold text-gray-900 mb-4"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+              transition: { delay: 0.2, duration: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
+            Leave a comment
+          </motion.h3>
+          <div className="">
             <textarea
               className="w-full border border-gray-300 rounded-md p-3 text-sm focus:ring-indigo-500 focus:border-indigo-500"
               rows={4}

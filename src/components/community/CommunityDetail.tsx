@@ -19,7 +19,6 @@ import useContentLoader from '../../hooks/useContentLoader';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { EventCardGallery } from './EventCardGallery';
 import { FilterBar } from './FilterBar';
-import { Navbar } from './Navbar';
 import { ProjectFeed } from './ProjectFeed';
 
 interface Community {
@@ -272,25 +271,6 @@ const CommunityDetail: React.FC = () => {
   return (
     <>
       <div className="overflow-hidden" style={contentStyle}>
-        {/* Back button section */}
-        <div className="bg-white border-b border-gray-200">
-          <motion.div
-            className="cb-wrapper py-4"
-            initial={{ x: 20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Link
-              to="/communities"
-              className="group inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:-translate-y-0.5 font-semibold"
-            >
-              <ArrowLeft className="h-5 w-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
-              <span>Back to Communities</span>
-            </Link>
-          </motion.div>
-        </div>
-
         {/* Hero section with cover image and community info */}
         <div className="relative">
           {/* Cover image */}
