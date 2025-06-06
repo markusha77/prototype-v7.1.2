@@ -1,17 +1,10 @@
-import { ArrowLeft, Edit3, Github, Globe, Twitter } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Edit3, Github, Globe, Twitter } from 'lucide-react';
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-
-import logo_name from '../../assets/logo-light-text.svg';
-import logo from '../../assets/logo.svg';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // Determine if we came from the community page
-  const fromCommunity =
-    location.state?.from === '/community' || document.referrer.includes('/community');
 
   // Mock user data
   const user = {
@@ -58,10 +51,6 @@ const ProfilePage: React.FC = () => {
     ],
   };
 
-  const handleCancel = () => {
-    navigate('/community');
-  };
-
   const handleEditProfile = () => {
     // Navigate to edit profile with state indicating we came from profile page
     navigate('/profile/edit', { state: { from: '/profile' } });
@@ -73,43 +62,11 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="cb-wrapper">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link to="/community" className="flex items-center">
-                <img src={logo} alt="ChatAndBuild Logo" className="h-8 w-8 mr-2" />
-                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
-              </Link>
-
-              <nav className="hidden md:ml-10 md:flex md:space-x-8">
-                {/* <Link to="/community" className="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md">
-                  Community
-                </Link> */}
-              </nav>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Profile header */}
+    <>
       <div className="bg-white shadow relative">
         <div className="cb-wrapper py-8">
           {/* Profile content with back button aligned to profile image center */}
           <div className="relative">
-            {/* Back button positioned to align with the middle of profile image */}
-            <div className="absolute left-0" style={{ top: '17px' }}>
-              <button
-                onClick={handleCancel}
-                className="flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:from-purple-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 ease-in-out"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Communities
-              </button>
-            </div>
-
             {/* Edit Profile button positioned to align with the middle of profile image on the right */}
             <div className="absolute right-0" style={{ top: '17px' }}>
               <button
@@ -117,68 +74,141 @@ const ProfilePage: React.FC = () => {
                 className="flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:from-purple-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 ease-in-out"
               >
                 <Edit3 className="h-4 w-4 mr-2" />
-                Edit Profile
+                Edit
               </button>
             </div>
 
             {/* Centered profile content */}
             <div className="flex flex-col items-center text-center">
               {/* Centered profile image */}
-              <img
+              <motion.img
                 src={user.avatar}
                 alt={user.name}
                 className="h-24 w-24 rounded-full border-4 border-white shadow-md mb-4"
+                initial={{ scale: 0.5, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                whileHover={{ scale: 1.05 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.2, delay: 0.8, type: 'spring', stiffness: 500 }}
               />
 
               {/* Profile info */}
               <div className="mb-4">
-                <h1 className="text-2xl font-bold text-gray-900">{user.name}</h1>
-                <p className="text-gray-600">@{user.username}</p>
+                <motion.h1
+                  className="text-2xl font-bold text-gray-900"
+                  initial={{ y: -20, opacity: 0 }}
+                  whileInView={{
+                    y: 0,
+                    opacity: 1,
+                    transition: { duration: 0.2, type: 'spring', stiffness: 500 },
+                  }}
+                  viewport={{ once: true }}
+                >
+                  {user.name}
+                </motion.h1>
+                <motion.p
+                  className="text-gray-600"
+                  initial={{ y: -20, opacity: 0 }}
+                  whileInView={{
+                    y: 0,
+                    opacity: 1,
+                    transition: { duration: 0.2, delay: 0.3 },
+                  }}
+                  viewport={{ once: true }}
+                >
+                  @{user.username}
+                </motion.p>
 
                 <div className="mt-2 flex flex-wrap justify-center items-center text-sm text-gray-500">
-                  {user.location && <span className="mr-4">{user.location}</span>}
+                  {user.location && (
+                    <motion.span
+                      className="mr-4"
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.2, delay: 0.4 + Math.random() * 0.8 },
+                      }}
+                      viewport={{ once: true }}
+                    >
+                      {user.location}
+                    </motion.span>
+                  )}
 
                   {user.website && (
-                    <a
+                    <motion.a
                       href={user.website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center mr-4 hover:text-indigo-600"
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.2, delay: 0.4 + Math.random() * 0.8 },
+                      }}
+                      viewport={{ once: true }}
                     >
                       <Globe className="h-4 w-4 mr-1" />
                       Website
-                    </a>
+                    </motion.a>
                   )}
 
                   {user.github && (
-                    <a
+                    <motion.a
                       href={`https://github.com/${user.github}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center mr-4 hover:text-indigo-600"
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.2, delay: 0.4 + Math.random() * 0.8 },
+                      }}
+                      viewport={{ once: true }}
                     >
                       <Github className="h-4 w-4 mr-1" />
                       GitHub
-                    </a>
+                    </motion.a>
                   )}
 
                   {user.twitter && (
-                    <a
+                    <motion.a
                       href={`https://twitter.com/${user.twitter}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center hover:text-indigo-600"
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.2, delay: 0.4 + Math.random() * 0.8 },
+                      }}
+                      viewport={{ once: true }}
                     >
                       <Twitter className="h-4 w-4 mr-1" />
                       Twitter
-                    </a>
+                    </motion.a>
                   )}
                 </div>
               </div>
 
               {/* Centered bio */}
               <div className="max-w-2xl mb-6">
-                <p className="text-gray-700">{user.bio}</p>
+                <motion.p
+                  className="text-gray-700"
+                  initial={{ y: 20, scale: 0.6, opacity: 0 }}
+                  whileInView={{
+                    y: 0,
+                    scale: 1,
+                    opacity: 1,
+                    transition: { duration: 0.2, delay: 0.4 + Math.random() * 0.8 },
+                  }}
+                  viewport={{ once: true }}
+                >
+                  {user.bio}
+                </motion.p>
               </div>
             </div>
           </div>
@@ -186,48 +216,76 @@ const ProfilePage: React.FC = () => {
       </div>
 
       {/* Projects */}
-      <main className="cb-wrapper py-8">
+      <section className="cb-wrapper py-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-900">My Projects</h2>
+          <motion.h2
+            className="text-xl font-bold text-gray-900"
+            initial={{ x: 20, scale: 0.6, opacity: 0 }}
+            whileInView={{
+              x: 0,
+              scale: 1,
+              opacity: 1,
+              transition: { duration: 0.2, delay: 0.1 },
+            }}
+            viewport={{ once: true }}
+          >
+            My Projects
+          </motion.h2>
 
-          <button
+          <motion.button
             onClick={handleCreateNewProject}
             className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            initial={{ x: -20, scale: 0.6, opacity: 0 }}
+            whileInView={{
+              x: 0,
+              scale: 1,
+              opacity: 1,
+              transition: { duration: 0.2, delay: 0.2 },
+            }}
+            viewport={{ once: true }}
           >
             Create New Project
-          </button>
+          </motion.button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {user.projects.map((project) => (
-            <Link
-              key={project.id}
-              to={`/community/project/${project.id}`}
+          {user.projects.map((project, index) => (
+            <motion.div
+              key={index}
               className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.4 + Math.random() * 0.6 },
+              }}
+              viewport={{ once: true }}
             >
-              <div className="h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="p-5">
-                <h3 className="font-bold text-lg mb-2 text-gray-900">{project.title}</h3>
-
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{project.description}</p>
-
-                <div className="flex justify-between items-center text-sm text-gray-500">
-                  <span>{project.likes} likes</span>
-                  <span>{project.comments} comments</span>
+              <Link key={project.id} to={`/community/project/${project.id}`} className="h-full ">
+                <div className="h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-              </div>
-            </Link>
+
+                <div className="p-5">
+                  <h3 className="font-bold text-lg mb-2 text-gray-900">{project.title}</h3>
+
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{project.description}</p>
+
+                  <div className="flex justify-between items-center text-sm text-gray-500">
+                    <span>{project.likes} likes</span>
+                    <span>{project.comments} comments</span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 };
 
