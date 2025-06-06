@@ -24,7 +24,7 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Navbar } from '../community/Navbar';
+import { Navbar } from '../layout/Navbar';
 import VideoPlayer from './VideoPlayer';
 
 const Tutorials = () => {

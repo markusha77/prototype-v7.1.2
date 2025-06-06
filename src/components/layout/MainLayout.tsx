@@ -2,8 +2,10 @@ import { motion, useScroll } from 'framer-motion';
 import { Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
-import Navbar from '../community/Navbar';
+import AuthNavbar from '../auth/AuthNavbar';
+import SignUpNavBar from '../auth/SignupNavBar';
 import { Footer } from './Footer';
+import Navbar from './Navbar';
 
 const MainLayout = () => {
   const { pathname } = useLocation();
@@ -20,13 +22,19 @@ const MainLayout = () => {
           backgroundColor: 'rgba(79, 70, 229, 0.4)',
         }}
       />
-      <Navbar />
       <main
         className={twMerge(
           'min-h-screen bg-gray-50',
           pathname === '/communities' && ' bg-gradient-to-br from-gray-50 via-white to-blue-50',
         )}
       >
+        {['/signin', '/signup'].includes(pathname) ? (
+          <AuthNavbar />
+        ) : pathname === '/landing' ? (
+          <SignUpNavBar />
+        ) : (
+          <Navbar />
+        )}
         <Outlet /> {/* Renders nested routes here */}
       </main>
       <Footer />

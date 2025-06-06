@@ -16,9 +16,9 @@ import { Link, useParams } from 'react-router-dom';
 
 import useContentLoader from '../../hooks/useContentLoader';
 import LoadingIndicator from '../common/LoadingIndicator';
+import { Navbar } from '../layout/Navbar';
 import { EventCardGallery } from './EventCardGallery';
 import { FilterBar } from './FilterBar';
-import { Navbar } from './Navbar';
 import { ProjectFeed } from './ProjectFeed';
 
 interface OpenSpace {

@@ -41,7 +41,7 @@ const CommunityPage: React.FC = () => {
 
       {/* Replace HeroSection with EventCardGallery - Pass size prop for main page */}
       <section className="cb-wrapper py-8">
-        <div className="bg-white rounded-xl shadow-sm lg:p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm lg:py-6 mb-8">
           <div className="flex justify-between items-center mb-6">
             <motion.h2
               className="text-2xl font-bold text-gray-900"
