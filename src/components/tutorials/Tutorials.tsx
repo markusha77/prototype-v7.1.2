@@ -1,31 +1,98 @@
+import { motion } from 'framer-motion';
 import {
   AlertTriangle,
-  ArrowLeft,
   BookOpen,
   Clock,
   Code,
-  Database,
   GitBranch,
   Github,
-  Globe,
   HelpCircle,
-  Laptop,
-  Lightbulb,
   Play,
   Rocket,
-  Shield,
   Star,
-  Terminal,
-  Trophy,
   Upload,
   Users,
-  Zap,
 } from 'lucide-react';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import { Navbar } from '../layout/Navbar';
 import VideoPlayer from './VideoPlayer';
+
+// Tutorial data with thumbnail URLs - USE DIRECT IMAGE URLS ONLY
+const tutorialData = [
+  {
+    id: '1I55_FA-7TQmBQhg0a3fQFNlfbeZ2hNid',
+    title: 'Getting Started - Sign in',
+    description:
+      'Learn how to sign in to ChatAndBuild and ensure browser compatibility for the best experience.',
+    duration: '30 sec',
+    difficulty: 'Beginner' as const,
+    views: '3.1k',
+    icon: <Code className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/get_started.png', // Login/signin themed
+  },
+  {
+    id: '1B4VJPf7OvQfM9z2T4UhjDl564Cq1rcld',
+    title: 'Connect Github account',
+    description: 'Learn how to connect your GitHub account to ChatAndBuild.',
+    duration: '27 sec',
+    difficulty: 'Beginner' as const,
+    views: '2.8k',
+    icon: <Github className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/connect_git.png', // GitHub themed
+  },
+  {
+    id: '1hbPBlq4Tf6LacMZdS2uctTUz4hk2xAYq',
+    title: 'Build your first project',
+    description: 'Create your first project using ChatAndBuild.',
+    duration: '41 sec',
+    difficulty: 'Beginner' as const,
+    views: '4.2k',
+    icon: <Rocket className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/first_project.png', // Project building themed
+  },
+  {
+    id: '1AtLVc6kb9rC3vkTQZEaCFnF3h8JWbkHn',
+    title: 'Error Handling',
+    description: 'Learn how to handle and debug errors in ChatAndBuild.',
+    duration: '40 sec',
+    difficulty: 'Beginner' as const,
+    views: '1.9k',
+    icon: <AlertTriangle className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/error.png', // Error/debugging themed
+  },
+  {
+    id: '14Mu5-exfarp0l4IVwkDFmDmUvMlEqhPQ',
+    title: 'Push to Github & Export Chat - Why this is important',
+    description: 'Learn how to push your projects to GitHub and export chat history.',
+    duration: '39 sec',
+    difficulty: 'Beginner' as const,
+    views: '2.3k',
+    icon: <Upload className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/push_git.png', // Upload/export themed
+  },
+  {
+    id: '14bBfJChUxv2H2dKJOYdVIIYv7nQLm4b3',
+    title: 'Clone Github & Import Chat function',
+    description: 'Learn how to clone GitHub repositories and import chat functions.',
+    duration: '31 sec',
+    difficulty: 'Beginner' as const,
+    views: '1.7k',
+    icon: <GitBranch className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/import_git.png', // Git clone themed
+  },
+  {
+    id: '1-tMbQGy1zlsyzxP744nrDIFnCcH8E7bG',
+    title: 'Support Center',
+    description: 'Learn how to access and use the support center for help and resources.',
+    duration: '39 sec',
+    difficulty: 'Beginner' as const,
+    views: '1.5k',
+    icon: <HelpCircle className="h-6 w-6" />,
+    thumbnail: 'src/assets/tut-tn/issues.png', // Support/help themed
+  },
+];
+
+const howTouse = [{ title: '', description: '', icon: <Play className="h-6 w-6" /> }];
 
 const Tutorials = () => {
   const handleTutorialClick = (videoId: string, title: string) => {
@@ -38,104 +105,54 @@ const Tutorials = () => {
     window.open(getDirectUrl(videoId), '_blank');
   };
 
-  // Tutorial data with thumbnail URLs - USE DIRECT IMAGE URLS ONLY
-  const tutorialData = [
-    {
-      id: '1I55_FA-7TQmBQhg0a3fQFNlfbeZ2hNid',
-      title: 'Getting Started - Sign in',
-      description:
-        'Learn how to sign in to ChatAndBuild and ensure browser compatibility for the best experience.',
-      duration: '30 sec',
-      difficulty: 'Beginner' as const,
-      views: '3.1k',
-      icon: <Code className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/get_started.png', // Login/signin themed
-    },
-    {
-      id: '1B4VJPf7OvQfM9z2T4UhjDl564Cq1rcld',
-      title: 'Connect Github account',
-      description: 'Learn how to connect your GitHub account to ChatAndBuild.',
-      duration: '27 sec',
-      difficulty: 'Beginner' as const,
-      views: '2.8k',
-      icon: <Github className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/connect_git.png', // GitHub themed
-    },
-    {
-      id: '1hbPBlq4Tf6LacMZdS2uctTUz4hk2xAYq',
-      title: 'Build your first project',
-      description: 'Create your first project using ChatAndBuild.',
-      duration: '41 sec',
-      difficulty: 'Beginner' as const,
-      views: '4.2k',
-      icon: <Rocket className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/first_project.png', // Project building themed
-    },
-    {
-      id: '1AtLVc6kb9rC3vkTQZEaCFnF3h8JWbkHn',
-      title: 'Error Handling',
-      description: 'Learn how to handle and debug errors in ChatAndBuild.',
-      duration: '40 sec',
-      difficulty: 'Beginner' as const,
-      views: '1.9k',
-      icon: <AlertTriangle className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/error.png', // Error/debugging themed
-    },
-    {
-      id: '14Mu5-exfarp0l4IVwkDFmDmUvMlEqhPQ',
-      title: 'Push to Github & Export Chat - Why this is important',
-      description: 'Learn how to push your projects to GitHub and export chat history.',
-      duration: '39 sec',
-      difficulty: 'Beginner' as const,
-      views: '2.3k',
-      icon: <Upload className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/push_git.png', // Upload/export themed
-    },
-    {
-      id: '14bBfJChUxv2H2dKJOYdVIIYv7nQLm4b3',
-      title: 'Clone Github & Import Chat function',
-      description: 'Learn how to clone GitHub repositories and import chat functions.',
-      duration: '31 sec',
-      difficulty: 'Beginner' as const,
-      views: '1.7k',
-      icon: <GitBranch className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/import_git.png', // Git clone themed
-    },
-    {
-      id: '1-tMbQGy1zlsyzxP744nrDIFnCcH8E7bG',
-      title: 'Support Center',
-      description: 'Learn how to access and use the support center for help and resources.',
-      duration: '39 sec',
-      difficulty: 'Beginner' as const,
-      views: '1.5k',
-      icon: <HelpCircle className="h-6 w-6" />,
-      thumbnail: 'src/assets/tut-tn/issues.png', // Support/help themed
-    },
-  ];
-
   return (
     <div className="flex-grow container mx-auto px-4 py-12 max-w-7xl">
       {/* Breadcrumb */}
 
       {/* Hero Section */}
       <div className="mb-16 text-center">
-        <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">Video Tutorials</h1>
-        <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+        <motion.h1
+          className="text-5xl font-bold text-gray-900 mb-6 leading-tight"
+          initial={{ y: -30, opacity: 0 }}
+          whileInView={{
+            y: 0,
+            opacity: 1,
+            transition: { duration: 0.2, delay: 0.1, type: 'spring', stiffness: 500 },
+          }}
+          viewport={{ once: true }}
+        >
+          Video Tutorials
+        </motion.h1>
+        <motion.p
+          className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
+          initial={{ y: -20, scale: 0.6, opacity: 0 }}
+          whileInView={{ y: 0, scale: 1, opacity: 1, transition: { duration: 0.2, delay: 0.4 } }}
+          viewport={{ once: true }}
+        >
           Learn ChatAndBuild through comprehensive video tutorials. From basic concepts to advanced
           techniques, master the art of conversational development.
-        </p>
+        </motion.p>
       </div>
 
       {/* Featured Tutorial */}
       <div className="mb-16">
-        <div
-          className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+        <motion.div
+          className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden cursor-pointer hover:shadow-xl"
           onClick={() =>
             handleTutorialClick(
               '1bZgauhXlEP2fOnS0VXZewqi71rv1JkN_',
               'Complete ChatAndBuild Tutorial',
             )
           }
+          initial={{ y: -20, scale: 0.98, opacity: 0 }}
+          whileInView={{
+            y: 0,
+            scale: 1,
+            opacity: 1,
+            transition: { duration: 0.2, delay: 0.3, type: 'spring', stiffness: 500 },
+          }}
+          whileHover={{ y: -4, transition: { type: 'spring', stiffness: 500 } }}
+          viewport={{ once: true }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
             <div>
@@ -188,21 +205,54 @@ const Tutorials = () => {
               />
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Tutorial Categories */}
       <div className="mb-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Browse by Category</h2>
+        <motion.h2
+          className="text-3xl font-bold text-gray-900 mb-8 text-center"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.05, // delay between characters
+              },
+            },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 1 }}
+          transition={{ delay: 0.1, duration: 0.2 }}
+        >
+          {'Browse by Category'.split('').map((char, index) => (
+            <motion.span
+              key={index}
+              className="inline-block"
+              variants={{
+                hidden: { opacity: 0, x: 10 },
+                visible: { opacity: 1, x: 0 },
+              }}
+            >
+              {char === ' ' ? '\u00A0' : char}
+            </motion.span>
+          ))}
+        </motion.h2>
 
         {/* Beginner Tutorials */}
         <div className="mb-12">
-          <div className="flex items-center mb-6">
+          <motion.div
+            className="flex items-center mb-6"
+            initial={{ x: 20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1, transition: { duration: 0.2, delay: 0.3 } }}
+            viewport={{ once: true }}
+          >
             <div className="inline-flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-lg mr-4">
               <span className="font-medium">Beginner</span>
             </div>
             <h3 className="text-2xl font-bold text-gray-900">Getting Started</h3>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tutorialData.map((tutorial) => (
@@ -224,20 +274,30 @@ const Tutorials = () => {
       </div>
 
       {/* How to Use Videos Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+      <motion.div
+        className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-16"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1, transition: { duration: 0.2, delay: 0.1 } }}
+        viewport={{ once: true }}
+      >
+        <motion.h2
+          className="text-2xl font-bold text-gray-900 mb-6 text-center"
+          initial={{ y: -20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1, transition: { duration: 0.2, delay: 0.3 } }}
+          viewport={{ once: true }}
+        >
           How to Use These Videos
-        </h2>
+        </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-lg mb-4">
-              <Play className="h-6 w-6" />
+          {howTouse.map(({ title, description, icon }, index) => (
+            <div key={index} className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-lg mb-4">
+                {icon}
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
+              <p className="text-sm text-gray-600">{description}</p>
             </div>
-            <h3 className="font-semibold text-gray-900 mb-2">Watch & Learn</h3>
-            <p className="text-sm text-gray-600">
-              Follow along with the video tutorials at your own pace
-            </p>
-          </div>
+          ))}
           <div className="text-center">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-lg mb-4">
               <Code className="h-6 w-6" />
@@ -257,7 +317,7 @@ const Tutorials = () => {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* CTA Section */}
       <div className="text-center">
@@ -315,9 +375,13 @@ function TutorialVideoCard({
   };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden group cursor-pointer transform hover:-translate-y-1"
+    <motion.div
+      className="bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden group cursor-pointer transform hover:-translate-y-1"
       onClick={handleCardClick}
+      initial={{ scale: 0.95, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1, transition: { duration: 0.2, delay: 0.2 } }}
+      whileHover={{ scale: 1.03, transition: { duration: 0.15, delay: 0 } }}
+      viewport={{ once: true }}
     >
       {/* Enhanced Video Player with custom thumbnail */}
       <div>
@@ -361,7 +425,7 @@ function TutorialVideoCard({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

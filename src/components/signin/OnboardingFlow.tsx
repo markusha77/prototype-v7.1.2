@@ -104,36 +104,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete, onCa
   };
 
   return (
-    <div className="fixed inset-0  flex items-center justify-center p-4 z-50">
-      {/* Header with same background as main component background */}
-      <header className="fixed top-0 left-0 right-0 z-40 bg-opacity-50">
-        <div className="cb-wrapper">
-          <div className="flex justify-between h-16 items-center">
-            <Link to="/community">
-              <div className="flex items-center">
-                <img src={logo} alt="ChatAndBuild Logo" className="h-8 w-8 mr-2" />
-                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
-
-                {/* <span className="text-xl font-bold text-indigo-600">
-                  ChatAndBuild
-                </span> */}
-              </div>
-            </Link>
-          </div>
-        </div>
-        {/* Divider line - same color as background to blend in */}
-        <div className="w-full h-[1px] bg-black bg-opacity-20"></div>
-      </header>
-
-      {/* Close button positioned down and to the left from the top-right corner - moved 35px down total */}
-      <button
-        onClick={handleCancel}
-        className="absolute top-[85px] right-[70px] p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-40 transition-colors z-50"
-        aria-label="Close onboarding"
-      >
-        <X className="h-6 w-6 text-white" />
-      </button>
-
+    <div className="min-h-[800px] lg:min-h-[840px] lg:fixed lg:inset-0 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl overflow-hidden mt-16">
         {/* Progress bar */}
         {currentStep < steps.length - 1 && (

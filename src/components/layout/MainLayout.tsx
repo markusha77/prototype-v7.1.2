@@ -28,7 +28,7 @@ const MainLayout = () => {
           pathname === '/communities' && ' bg-gradient-to-br from-gray-50 via-white to-blue-50',
         )}
       >
-        {['/signin', '/signup'].includes(pathname) ? (
+        {['/signin', '/signup', '/onboarding', '/builder'].includes(pathname) ? (
           <AuthNavbar />
         ) : pathname === '/landing' ? (
           <SignUpNavBar />
