@@ -1,32 +1,27 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useProfile } from '../../hooks/useProfile';
-import Input from './ui/Input';
-import TextArea from './ui/TextArea';
-import MultiSelect from './ui/MultiSelect';
-import Button from './ui/Button';
-import { TECHNOLOGIES } from '../../types';
-import { User, MapPin, Mail, Upload, Trash2, Globe, Github, Linkedin, MessageSquare, ArrowLeft } from 'lucide-react';
-import { Modal } from '../common/Modal';
-import logo from '../../assets/logo.svg';
-import logo_name from '../../assets/logo-light-text.svg'
+import { Github, Globe, Linkedin, Mail, MapPin, Upload, User } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { TECHNOLOGIES } from '../../types';
+import Button from './ui/Button';
+import Input from './ui/Input';
+import MultiSelect from './ui/MultiSelect';
+import TextArea from './ui/TextArea';
 
 const ProfileForm: React.FC = () => {
   // This would normally come from a context, but we'll mock it for now
   const { profile, updateProfile } = {
     profile: null,
-    updateProfile: (data: any) => console.log('Profile updated:', data)
+    updateProfile: (data: any) => console.log('Profile updated:', data),
   };
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   // Check if we came from the Welcome page or profile page
   const fromWelcome = location.state?.from === '/builder' || document.referrer.includes('/builder');
-  const fromProfile = location.state?.from === '/profile' || document.referrer.includes('/profile');
-  
+
   const [formData, setFormData] = useState({
     name: profile?.name || '',
     title: profile?.title || '',
@@ -42,7 +37,7 @@ const ProfileForm: React.FC = () => {
     discord: profile?.discord || '',
     linkedin: profile?.linkedin || '',
     skills: profile?.skills || [],
-    projects: profile?.projects || []
+    projects: profile?.projects || [],
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -51,11 +46,11 @@ const ProfileForm: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
@@ -64,12 +59,12 @@ const ProfileForm: React.FC = () => {
   };
 
   const handleSkillsChange = (skills: string[]) => {
-    setFormData(prev => ({ ...prev, skills }));
+    setFormData((prev) => ({ ...prev, skills }));
   };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     // Removed bio validation as it's no longer required
@@ -78,21 +73,21 @@ const ProfileForm: React.FC = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     updateProfile({
       ...formData,
-      projects: formData.projects || []
+      projects: formData.projects || [],
     });
-    
+
     // Navigate based on where user came from
     if (fromWelcome) {
       navigate('/builder');
@@ -120,7 +115,7 @@ const ProfileForm: React.FC = () => {
   };
 
   const handleDeleteProfilePicture = () => {
-    setFormData(prev => ({ ...prev, avatar: '' }));
+    setFormData((prev) => ({ ...prev, avatar: '' }));
     setIsProfilePictureModalOpen(false);
   };
 
@@ -129,7 +124,7 @@ const ProfileForm: React.FC = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, avatar: reader.result as string }));
+        setFormData((prev) => ({ ...prev, avatar: reader.result as string }));
       };
       reader.readAsDataURL(file);
     }
@@ -148,12 +143,12 @@ const ProfileForm: React.FC = () => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    
+
     const file = e.dataTransfer.files?.[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, avatar: reader.result as string }));
+        setFormData((prev) => ({ ...prev, avatar: reader.result as string }));
       };
       reader.readAsDataURL(file);
     }
@@ -252,278 +247,234 @@ const ProfileForm: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link to="/community" className="flex items-center">
-                <img src={logo} alt="ChatAndBuild Logo" className="h-8 w-8 mr-2" />
-                                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
-
-                {/* <span className="text-xl font-bold text-indigo-600">ChatAndBuild</span> */}
-              </Link>
-              
-              <nav className="hidden md:ml-10 md:flex md:space-x-8">
-                {/* <Link to="/community" className="text-gray-500 hover:text-indigo-600 px-3 py-2 rounded-md">
-                  Community
-                </Link> */}
-               
-              </nav>
-            </div>
-          </div>
+    <div className="max-w-4xl mx-auto mt-8 mb-10">
+      <div className="flex-1 p-8 bg-white rounded-xl shadow-lg">
+        <div className="flex items-center mb-8">
+          <div className="w-2 h-8 bg-indigo-600 rounded-full mr-3"></div>
+          <h2 className="text-2xl font-bold text-gray-800">Your Profile</h2>
         </div>
-      </header>
 
-      <div className="max-w-4xl mx-auto mt-8">
-        {/* Back button positioned 5px lower than the card top edge */}
-        <div className="flex items-start gap-4">
-          <button 
-            onClick={handleBackClick}
-            className="p-4 rounded-full bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 hover:from-blue-600 hover:via-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 mt-1"
-            aria-label="Back to profile"
-          >
-            <ArrowLeft size={24} className="text-white" />
-          </button>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="md:col-span-2 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input
+                  label="Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your full name"
+                  error={errors.name}
+                  fullWidth
+                  required
+                  icon={<User size={18} className="text-gray-500" />}
+                />
 
-          <div className="flex-1 p-8 bg-white rounded-xl shadow-lg">
-            <div className="flex items-center mb-8">
-              <div className="w-2 h-8 bg-indigo-600 rounded-full mr-3"></div>
-              <h2 className="text-2xl font-bold text-gray-800">Your Profile</h2>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="md:col-span-2 space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input
-                      label="Name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Your full name"
-                      error={errors.name}
-                      fullWidth
-                      required
-                      icon={<User size={18} className="text-gray-500" />}
-                    />
-                    
-                    <Input
-                      label="Professional Title"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleChange}
-                      placeholder="e.g. Full Stack Developer"
-                      error={errors.title}
-                      fullWidth
-                      required
-                    />
-                  </div>
-                  
-                  <TextArea
-                    label="Bio"
-                    name="bio"
-                    value={formData.bio}
-                    onChange={handleChange}
-                    placeholder="Tell us about yourself, your experience, and what you're passionate about"
-                    error={errors.bio}
-                    fullWidth
-                  />
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Input
-                      label="Location"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      placeholder="City, Country"
-                      fullWidth
-                      icon={<MapPin size={18} className="text-gray-500" />}
-                    />
-                    
-                    <Input
-                      label="Email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="your.email@example.com"
-                      error={errors.email}
-                      fullWidth
-                      required
-                      icon={<Mail size={18} className="text-gray-500" />}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <div className="mb-3">
-                    <h3 className="text-sm font-medium text-gray-700 mb-2 text-center">
-                      Profile Picture
-                    </h3>
-                    <div 
-                      className={`relative w-48 h-48 rounded-full overflow-hidden border-2 ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 bg-gray-50'} transition-all duration-200 flex items-center justify-center cursor-pointer`}
-                      onClick={triggerFileInput}
-                      onDragOver={handleDragOver}
-                      onDragLeave={handleDragLeave}
-                      onDrop={handleDrop}
-                    >
-                      {formData.avatar ? (
-                        <img 
-                          src={formData.avatar} 
-                          alt="Profile" 
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center p-4 text-center">
-                          <Upload className="h-8 w-8 text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-500">
-                            Click or drag image here
-                          </p>
-                        </div>
-                      )}
-                      
-                      <input 
-                        ref={fileInputRef}
-                        type="file" 
-                        accept="image/*" 
-                        className="hidden" 
-                        onChange={handleFileUpload}
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="flex space-x-2 mt-2">
-                    <button
-                      type="button"
-                      onClick={triggerFileInput}
-                      className="px-3 py-1.5 text-xs bg-indigo-50 text-indigo-600 rounded-md hover:bg-indigo-100 transition-colors"
-                    >
-                      Upload
-                    </button>
-                    {formData.avatar && (
-                      <button
-                        type="button"
-                        onClick={handleDeleteProfilePicture}
-                        className="px-3 py-1.5 text-xs bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors"
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Social Profiles Section */}
-              <div className="bg-gray-50 p-6 rounded-xl">
-                <div className="flex items-center mb-4">
-                  <div className="w-1.5 h-6 bg-indigo-400 rounded-full mr-3"></div>
-                  <h3 className="text-lg font-medium text-gray-800">Social Profiles (optional)</h3>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Input
-                    label="Website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    placeholder="https://yourportfolio.com"
-                    fullWidth
-                    icon={<Globe size={18} className="text-gray-500" />}
-                  />
-                  
-                  <Input
-                    label="GitHub"
-                    name="github"
-                    value={formData.github}
-                    onChange={handleChange}
-                    placeholder="https://github.com/yourusername"
-                    fullWidth
-                    icon={<Github size={18} className="text-gray-500" />}
-                  />
-                  
-                  <Input
-                    label="X"
-                    name="twitter"
-                    value={formData.twitter}
-                    onChange={handleChange}
-                    placeholder="https://twitter.com/yourusername"
-                    fullWidth
-                    icon={<XIcon />}
-                  />
-                  
-                  <Input
-                    label="Telegram"
-                    name="telegram"
-                    value={formData.telegram}
-                    onChange={handleChange}
-                    placeholder="Telegram username"
-                    fullWidth
-                    icon={<TelegramIcon />}
-                  />
-                  
-                  <Input
-                    label="Slack"
-                    name="slack"
-                    value={formData.slack}
-                    onChange={handleChange}
-                    placeholder="Slack handle"
-                    fullWidth
-                    icon={<SlackIcon />}
-                  />
-                  
-                  <Input
-                    label="Discord"
-                    name="discord"
-                    value={formData.discord}
-                    onChange={handleChange}
-                    placeholder="https://discord.com/users/yourusername"
-                    fullWidth
-                    icon={<DiscordIcon />}
-                  />
-                  
-                  <Input
-                    label="LinkedIn"
-                    name="linkedin"
-                    value={formData.linkedin}
-                    onChange={handleChange}
-                    placeholder="https://linkedin.com/in/yourusername"
-                    fullWidth
-                    icon={<Linkedin size={18} className="text-gray-500" />}
-                  />
-                </div>
-              </div>
-              
-              <div className="bg-gray-50 p-6 rounded-xl">
-                <div className="flex items-center mb-4">
-                  <div className="w-1.5 h-6 bg-indigo-400 rounded-full mr-3"></div>
-                  <h3 className="text-lg font-medium text-gray-800">Skills & Technologies</h3>
-                </div>
-                
-                <MultiSelect
-                  options={TECHNOLOGIES}
-                  selectedValues={formData.skills}
-                  onChange={handleSkillsChange}
-                  placeholder="Select or type to add skills"
+                <Input
+                  label="Professional Title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="e.g. Full Stack Developer"
+                  error={errors.title}
+                  fullWidth
+                  required
                 />
               </div>
-              
-              <div className="flex justify-end space-x-4 pt-6">
-                <Button 
-                  type="button" 
-                  variant="outline"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">
-                  Save & Continue
-                </Button>
+
+              <TextArea
+                label="Bio"
+                name="bio"
+                value={formData.bio}
+                onChange={handleChange}
+                placeholder="Tell us about yourself, your experience, and what you're passionate about"
+                error={errors.bio}
+                fullWidth
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Input
+                  label="Location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="City, Country"
+                  fullWidth
+                  icon={<MapPin size={18} className="text-gray-500" />}
+                />
+
+                <Input
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your.email@example.com"
+                  error={errors.email}
+                  fullWidth
+                  required
+                  icon={<Mail size={18} className="text-gray-500" />}
+                />
               </div>
-            </form>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="mb-3">
+                <h3 className="text-sm font-medium text-gray-700 mb-2 text-center">
+                  Profile Picture
+                </h3>
+                <div
+                  className={`relative w-48 h-48 rounded-full overflow-hidden border-2 ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 bg-gray-50'} transition-all duration-200 flex items-center justify-center cursor-pointer`}
+                  onClick={triggerFileInput}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                >
+                  {formData.avatar ? (
+                    <img
+                      src={formData.avatar}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center p-4 text-center">
+                      <Upload className="h-8 w-8 text-gray-400 mb-2" />
+                      <p className="text-sm text-gray-500">Click or drag image here</p>
+                    </div>
+                  )}
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-2 mt-2">
+                <button
+                  type="button"
+                  onClick={triggerFileInput}
+                  className="px-3 py-1.5 text-xs bg-indigo-50 text-indigo-600 rounded-md hover:bg-indigo-100 transition-colors"
+                >
+                  Upload
+                </button>
+                {formData.avatar && (
+                  <button
+                    type="button"
+                    onClick={handleDeleteProfilePicture}
+                    className="px-3 py-1.5 text-xs bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
+
+          {/* Social Profiles Section */}
+          <div className="bg-gray-50 p-6 rounded-xl">
+            <div className="flex items-center mb-4">
+              <div className="w-1.5 h-6 bg-indigo-400 rounded-full mr-3"></div>
+              <h3 className="text-lg font-medium text-gray-800">Social Profiles (optional)</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Input
+                label="Website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                placeholder="https://yourportfolio.com"
+                fullWidth
+                icon={<Globe size={18} className="text-gray-500" />}
+              />
+
+              <Input
+                label="GitHub"
+                name="github"
+                value={formData.github}
+                onChange={handleChange}
+                placeholder="https://github.com/yourusername"
+                fullWidth
+                icon={<Github size={18} className="text-gray-500" />}
+              />
+
+              <Input
+                label="X"
+                name="twitter"
+                value={formData.twitter}
+                onChange={handleChange}
+                placeholder="https://twitter.com/yourusername"
+                fullWidth
+                icon={<XIcon />}
+              />
+
+              <Input
+                label="Telegram"
+                name="telegram"
+                value={formData.telegram}
+                onChange={handleChange}
+                placeholder="Telegram username"
+                fullWidth
+                icon={<TelegramIcon />}
+              />
+
+              <Input
+                label="Slack"
+                name="slack"
+                value={formData.slack}
+                onChange={handleChange}
+                placeholder="Slack handle"
+                fullWidth
+                icon={<SlackIcon />}
+              />
+
+              <Input
+                label="Discord"
+                name="discord"
+                value={formData.discord}
+                onChange={handleChange}
+                placeholder="https://discord.com/users/yourusername"
+                fullWidth
+                icon={<DiscordIcon />}
+              />
+
+              <Input
+                label="LinkedIn"
+                name="linkedin"
+                value={formData.linkedin}
+                onChange={handleChange}
+                placeholder="https://linkedin.com/in/yourusername"
+                fullWidth
+                icon={<Linkedin size={18} className="text-gray-500" />}
+              />
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-6 rounded-xl">
+            <div className="flex items-center mb-4">
+              <div className="w-1.5 h-6 bg-indigo-400 rounded-full mr-3"></div>
+              <h3 className="text-lg font-medium text-gray-800">Skills & Technologies</h3>
+            </div>
+
+            <MultiSelect
+              options={TECHNOLOGIES}
+              selectedValues={formData.skills}
+              onChange={handleSkillsChange}
+              placeholder="Select or type to add skills"
+            />
+          </div>
+
+          <div className="flex justify-end space-x-4 pt-6">
+            <Button type="button" variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="submit">Save & Continue</Button>
+          </div>
+        </form>
       </div>
     </div>
   );

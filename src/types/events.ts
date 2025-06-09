@@ -14,7 +14,7 @@ export interface Event {
   image: string;
   attendees: number;
   category: string;
-  followedAttendees: EventAttendee[];
+  followedAttendees?: EventAttendee[];
 }
 
 export interface FollowedAttendeesResponse {

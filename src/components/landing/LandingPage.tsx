@@ -1,10 +1,45 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { ArrowRight, Code, Users, Globe, Zap } from "lucide-react";
-import logo from "../../assets/logo.svg";
-import logo_name from '../../assets/logo-light-text.svg'
+import { motion } from 'framer-motion';
+import { ArrowRight, Code, Globe, Users, Zap } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import logo from '../../assets/logo.svg';
+
+const statistics = [
+  {
+    label: 'Active Users',
+    count: '10k+',
+  },
+  {
+    label: 'Projects',
+    count: '5k+',
+  },
+  {
+    label: 'Communities',
+    count: '120+',
+  },
+];
+
+const reasons = [
+  {
+    title: 'Connect with Peers',
+    description:
+      'Join spaces based on your interests and connect with like-minded builders and  creators.',
+    icon: <Users className="h-8 w-8 text-indigo-600" />,
+  },
+  {
+    title: 'Showcase Projects',
+    description:
+      'Share your work, get feedback, and discover inspiring projects from the community.',
+    icon: <Code className="h-8 w-8 text-indigo-600" />,
+  },
+  {
+    title: 'Grow Together',
+    description:
+      'Learn from others, collaborate on ideas, and build your network in a supportive environment.',
+    icon: <Globe className="h-8 w-8 text-indigo-600" />,
+  },
+];
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,17 +55,17 @@ const LandingPage: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
+
     // Initial check
     handleScroll();
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [scrolled]);
 
   const handleGetStarted = () => {
-    navigate("/onboarding");
+    navigate('/onboarding');
   };
 
   return (
@@ -43,14 +78,14 @@ const LandingPage: React.FC = () => {
         <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-100 rounded-full opacity-30 blur-3xl"></div>
 
         {/* Animated Floating Elements */}
-        <div className="absolute top-32 left-[15%] w-10 h-10 bg-indigo-200 rounded-full opacity-20 animate-float"></div>
+        <div className="absolute top-32 left-[15%] w-10 h-10 bg-indigo-200 rounded-full opacity-20 animate-float" />
         <div
           className="absolute top-[60%] right-[20%] w-8 h-8 bg-purple-200 rounded-full opacity-20 animate-float"
-          style={{ animationDelay: "1.5s" }}
+          style={{ animationDelay: '1.5s' }}
         ></div>
         <div
           className="absolute bottom-[30%] left-[30%] w-12 h-12 bg-blue-200 rounded-full opacity-20 animate-float"
-          style={{ animationDelay: "2.5s" }}
+          style={{ animationDelay: '2.5s' }}
         ></div>
 
         {/* Grid Pattern */}
@@ -61,67 +96,11 @@ const LandingPage: React.FC = () => {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px)",
-            backgroundSize: "30px 30px",
+              'radial-gradient(circle, rgba(99, 102, 241, 0.08) 1px, transparent 1px)',
+            backgroundSize: '30px 30px',
           }}
         ></div>
       </div>
-
-      {/* Sticky Header - Now with dynamic transparency based on scroll */}
-      <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? 'bg-white/70 backdrop-blur-md shadow-sm border-b border-gray-100' 
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <Link to="/community">
-              <div className="flex items-center">
-                <img
-                  src={logo}
-                  alt="ChatAndBuild Logo"
-                  className="h-8 w-8 mr-2"
-                />
-                                <img src={logo_name} alt="ChatAndBuild Logo1" className="h-500 w-500 mr-2" />
-
-              </div>
-            </Link>
-
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <a
-                  href="#features"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    scrolled ? 'text-gray-600 hover:text-indigo-600' : 'text-gray-700 hover:text-indigo-600'
-                  }`}
-                >
-                  Features
-                </a>
-                <a
-                  href="#community"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    scrolled ? 'text-gray-600 hover:text-indigo-600' : 'text-gray-700 hover:text-indigo-600'
-                  }`}
-                >
-                  Community
-                </a>
-                <button
-                  onClick={handleGetStarted}
-                  className={`ml-4 px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all shadow-sm hover:shadow text-sm font-medium ${
-                    scrolled 
-                      ? 'bg-indigo-600 text-white' 
-                      : 'bg-indigo-600 text-white'
-                  }`}
-                >
-                  Sign Up
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Add padding to account for fixed header */}
       <div className="h-16"></div>
@@ -129,45 +108,87 @@ const LandingPage: React.FC = () => {
       {/* Hero Section with Enhanced Background */}
       <div className="container mx-auto px-4 pt-24 pb-20 relative z-10">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          <div className="mb-8 p-2 bg-white/30 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 relative">
+          <motion.div
+            className="mb-8 p-2 bg-white/30 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 relative"
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{
+              scale: 1,
+              opacity: 1,
+              transition: { duration: 0.6, delay: 0.8 },
+            }}
+            viewport={{ once: true }}
+          >
             {/* Logo glow effect */}
             <div className="absolute inset-0 bg-indigo-100/50 rounded-2xl blur-md"></div>
             <div className="relative">
               <img src={logo} alt="ChatAndBuild Logo" className="h-20 w-20" />
             </div>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          </motion.div>
+          <motion.h1
+            className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+            initial={{ y: -30, opacity: 0 }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+              transition: { duration: 0.2, delay: 0, type: 'spring', stiffness: 500 },
+            }}
+            viewport={{ once: true }}
+          >
             Community <span className="text-gradient">Spaces</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mb-10 leading-relaxed">
-            Connect, collaborate, and create with a community of builders and
-            innovators. Share your projects and get valuable feedback from
-            peers.
-          </p>
-          <button
+          </motion.h1>
+          <motion.p
+            className="text-xl md:text-2xl text-gray-600 max-w-3xl mb-10 leading-relaxed"
+            initial={{ y: -20, opacity: 0 }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+              transition: { duration: 0.2, delay: 0.2 },
+            }}
+            viewport={{ once: true }}
+          >
+            Connect, collaborate, and create with a community of builders and innovators. Share your
+            projects and get valuable feedback from peers.
+          </motion.p>
+          <motion.button
             onClick={handleGetStarted}
             className="flex items-center justify-center bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-medium py-4 px-8 rounded-xl transition-all text-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 relative overflow-hidden group"
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{
+              scale: 1,
+              opacity: 1,
+              transition: { duration: 0.4, delay: 0.4, type: 'spring', stiffness: 500 },
+            }}
+            viewport={{ once: true }}
           >
             {/* Button background animation */}
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <span className="relative z-10">Sign Up</span>
             <ArrowRight className="ml-2 h-5 w-5 relative z-10 transition-transform group-hover:translate-x-1" />
-          </button>
+          </motion.button>
 
           {/* Stats with enhanced design */}
-          <div className="grid grid-cols-3 gap-8 mt-16 w-full max-w-2xl">
-            <div className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-white/60 shadow-sm">
-              <p className="text-3xl font-bold text-indigo-600">10k+</p>
-              <p className="text-gray-600 mt-1">Active Users</p>
-            </div>
-            <div className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-white/60 shadow-sm">
-              <p className="text-3xl font-bold text-indigo-600">5k+</p>
-              <p className="text-gray-600 mt-1">Projects</p>
-            </div>
-            <div className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-white/60 shadow-sm">
-              <p className="text-3xl font-bold text-indigo-600">120+</p>
-              <p className="text-gray-600 mt-1">Communities</p>
-            </div>
+          <div className="flex flex-wrap justify-center md:grid md:grid-cols-3 gap-4 md:gap-8 mt-16 w-full max-w-2xl">
+            {statistics.map((item, index) => (
+              <motion.div
+                key={index}
+                className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-white/60 shadow-md w-[124px] md:w-auto"
+                initial={{ scale: 0.9, opacity: 0 }}
+                whileInView={{
+                  scale: 1,
+                  opacity: 1,
+                  transition: {
+                    duration: 0.1,
+                    delay: 0.2 + index * 0.2,
+                    type: 'spring',
+                    stiffness: 500,
+                  },
+                }}
+                viewport={{ once: true }}
+              >
+                <p className="text-3xl font-bold text-indigo-600">{item.count}</p>
+                <p className="text-gray-600 mt-1">{item.label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -175,62 +196,50 @@ const LandingPage: React.FC = () => {
       {/* Features Section */}
       <div id="features" className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <motion.h2
+            className="text-3xl font-bold text-gray-900 mb-4"
+            initial={{ y: -20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1, transition: { duration: 0.2, delay: 0 } }}
+            viewport={{ once: true }}
+          >
             Why Choose Community Spaces?
-          </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Our platform provides everything you need to connect, share, and
-            grow with fellow creators.
-          </p>
+          </motion.h2>
+          <motion.p
+            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            initial={{ y: -20, scale: 0.6, opacity: 0 }}
+            whileInView={{ y: 0, scale: 1, opacity: 1, transition: { duration: 0.2, delay: 0.3 } }}
+            viewport={{ once: true }}
+          >
+            Our platform provides everything you need to connect, share, and grow with fellow
+            creators.
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-1 duration-300">
-            <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-              <Users className="h-8 w-8 text-indigo-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Connect with Peers
-            </h3>
-            <p className="text-gray-600">
-              Join spaces based on your interests and connect with like-minded
-              builders and creators.
-            </p>
-          </div>
-
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-1 duration-300">
-            <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-              <Code className="h-8 w-8 text-indigo-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Showcase Projects
-            </h3>
-            <p className="text-gray-600">
-              Share your work, get feedback, and discover inspiring projects
-              from the community.
-            </p>
-          </div>
-
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-1 duration-300">
-            <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
-              <Globe className="h-8 w-8 text-indigo-600" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">
-              Grow Together
-            </h3>
-            <p className="text-gray-600">
-              Learn from others, collaborate on ideas, and build your network in
-              a supportive environment.
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
+          {reasons.map(({ title, description, icon }, index) => (
+            <motion.div
+              key={index}
+              className="bg-white/80 backdrop-blur-sm px-4 py-6 lg:p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transform hover:-translate-y-1"
+              initial={{ x: 20, opacity: 0 }}
+              whileInView={{
+                x: 0,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.3 + index * 0.2 },
+              }}
+              viewport={{ once: true }}
+            >
+              <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6">
+                {icon}
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">{title}</h3>
+              <p className="text-gray-600">{description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
 
       {/* Testimonial Section with Enhanced Background */}
-      <div
-        id="community"
-        className="container mx-auto px-4 py-20 relative z-10"
-      >
+      <div id="community" className="container mx-auto px-4 py-20 relative z-10">
         <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-8 md:p-12 shadow-md border border-white/50 backdrop-blur-sm relative overflow-hidden">
           {/* Decorative elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -242,8 +251,8 @@ const LandingPage: React.FC = () => {
               className="absolute inset-0"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle, rgba(99, 102, 241, 0.1) 1px, transparent 1px)",
-                backgroundSize: "20px 20px",
+                  'radial-gradient(circle, rgba(99, 102, 241, 0.1) 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
               }}
             ></div>
           </div>
@@ -252,55 +261,49 @@ const LandingPage: React.FC = () => {
             <div className="bg-indigo-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-6 border border-indigo-200 shadow-sm">
               <Zap className="h-8 w-8 text-indigo-600" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <motion.h2
+              className="text-3xl font-bold text-gray-900 mb-6"
+              initial={{ y: -20, opacity: 0 }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.2 },
+              }}
+              viewport={{ once: true }}
+            >
               Join our growing community
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mb-8">
-              Thousands of builders are already sharing ideas, getting feedback,
-              and collaborating on exciting projects.
-            </p>
-            <button
+            </motion.h2>
+            <motion.p
+              className="text-xl text-gray-600 max-w-2xl mb-8"
+              initial={{ y: -20, scale: 0.6, opacity: 0 }}
+              whileInView={{
+                y: 0,
+                scale: 1,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.4 },
+              }}
+              viewport={{ once: true }}
+            >
+              Thousands of builders are already sharing ideas, getting feedback, and collaborating
+              on exciting projects.
+            </motion.p>
+            <motion.button
               onClick={handleGetStarted}
-              className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition-all shadow-md hover:shadow-lg group"
+              className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg group"
+              initial={{ scale: 0.6, opacity: 0 }}
+              whileInView={{
+                scale: 1,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.2, type: 'spring', stiffness: 500 },
+              }}
+              viewport={{ once: true }}
             >
               Sign up now
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
-
-      {/* Footer with Gradient Line */}
-      <footer className="container mx-auto px-4 py-8 border-t border-gray-200 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center mb-4 md:mb-0">
-            <img src={logo} alt="ChatAndBuild Logo" className="h-6 w-6 mr-2" />
-            <p className="text-gray-500">
-              © 2025 Community Spaces. All rights reserved.
-            </p>
-          </div>
-          <div className="flex space-x-6">
-            <a
-              href="#"
-              className="text-gray-500 hover:text-indigo-600 transition-colors"
-            >
-              Terms
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-indigo-600 transition-colors"
-            >
-              Privacy
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-indigo-600 transition-colors"
-            >
-              Contact
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
