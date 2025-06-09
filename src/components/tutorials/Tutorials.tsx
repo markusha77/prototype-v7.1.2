@@ -14,6 +14,7 @@ import {
   Users,
 } from 'lucide-react';
 import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import VideoPlayer from './VideoPlayer';
 
@@ -92,7 +93,26 @@ const tutorialData = [
   },
 ];
 
-const howTouse = [{ title: '', description: '', icon: <Play className="h-6 w-6" /> }];
+const howTouse = [
+  {
+    title: 'Watch & Learn',
+    description: 'Follow along with the video tutorials at your own pace',
+    icon: <Play className="h-6 w-6" />,
+    iconClass: 'bg-blue-100 text-blue-600',
+  },
+  {
+    title: 'Practice',
+    description: 'Apply what you learn by building your own projects',
+    icon: <Code className="h-6 w-6" />,
+    iconClass: 'bg-green-100 text-green-600',
+  },
+  {
+    title: 'Share',
+    description: 'Join our community to share your progress and get help',
+    icon: <Users className="h-6 w-6" />,
+    iconClass: 'bg-purple-100 text-purple-600',
+  },
+];
 
 const Tutorials = () => {
   const handleTutorialClick = (videoId: string, title: string) => {
@@ -212,32 +232,12 @@ const Tutorials = () => {
       <div className="mb-16">
         <motion.h2
           className="text-3xl font-bold text-gray-900 mb-8 text-center"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.05, // delay between characters
-              },
-            },
-          }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 1 }}
-          transition={{ delay: 0.1, duration: 0.2 }}
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.2 }}
         >
-          {'Browse by Category'.split('').map((char, index) => (
-            <motion.span
-              key={index}
-              className="inline-block"
-              variants={{
-                hidden: { opacity: 0, x: 10 },
-                visible: { opacity: 1, x: 0 },
-              }}
-            >
-              {char === ' ' ? '\u00A0' : char}
-            </motion.span>
-          ))}
+          Browse by Category
         </motion.h2>
 
         {/* Beginner Tutorials */}
@@ -274,7 +274,7 @@ const Tutorials = () => {
       </div>
 
       {/* How to Use Videos Section */}
-      <motion.div
+      <motion.section
         className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-16"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1, transition: { duration: 0.2, delay: 0.1 } }}
@@ -289,53 +289,87 @@ const Tutorials = () => {
           How to Use These Videos
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {howTouse.map(({ title, description, icon }, index) => (
-            <div key={index} className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-lg mb-4">
+          {howTouse.map(({ title, description, icon, iconClass }, index) => (
+            <motion.div
+              key={index}
+              className="text-center"
+              initial={{ x: 20, opacity: 0 }}
+              whileInView={{
+                x: 0,
+                opacity: 1,
+                transition: { duration: 0.2, delay: 0.5 + 0.2 * index },
+              }}
+              viewport={{ once: true }}
+            >
+              <div
+                className={twMerge(
+                  'inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4',
+                  iconClass,
+                )}
+              >
                 {icon}
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
               <p className="text-sm text-gray-600">{description}</p>
-            </div>
+            </motion.div>
           ))}
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 text-green-600 rounded-lg mb-4">
-              <Code className="h-6 w-6" />
-            </div>
-            <h3 className="font-semibold text-gray-900 mb-2">Practice</h3>
-            <p className="text-sm text-gray-600">
-              Apply what you learn by building your own projects
-            </p>
-          </div>
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 text-purple-600 rounded-lg mb-4">
-              <Users className="h-6 w-6" />
-            </div>
-            <h3 className="font-semibold text-gray-900 mb-2">Share</h3>
-            <p className="text-sm text-gray-600">
-              Join our community to share your progress and get help
-            </p>
-          </div>
         </div>
-      </motion.div>
+      </motion.section>
 
       {/* CTA Section */}
-      <div className="text-center">
-        <div className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-12 text-white">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Learning?</h2>
-          <p className="text-xl mb-8 opacity-90">
+      <section className="text-center">
+        <motion.div
+          className="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-12 text-white"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1, transition: { duration: 0.1, delay: 0 } }}
+          viewport={{ once: true }}
+        >
+          <motion.h2
+            className="text-3xl font-bold mb-4"
+            initial={{ y: -20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1, transition: { duration: 0.2, delay: 0.1 } }}
+            viewport={{ once: true }}
+          >
+            Ready to Start Learning?
+          </motion.h2>
+          <motion.p
+            className="text-xl mb-8 opacity-90"
+            initial={{ y: 20, scale: 0.5, opacity: 0 }}
+            whileInView={{ y: 0, scale: 1, opacity: 1, transition: { duration: 0.2, delay: 0.3 } }}
+            viewport={{ once: true }}
+          >
             Begin your ChatAndBuild journey with our comprehensive video tutorials
-          </p>
+          </motion.p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="px-8 py-3 bg-white text-indigo-600 hover:bg-gray-100 rounded-lg font-medium transition-all duration-200 flex items-center justify-center">
+            <motion.button
+              className="px-8 py-3 bg-white text-indigo-600 hover:bg-gray-100 rounded-lg font-medium flex items-center justify-center"
+              initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{
+                scale: 1,
+                opacity: 1,
+                transition: { duration: 0.4, delay: 0.5 },
+              }}
+              whileHover={{ scale: 1.03, transition: { delay: 0, type: 'spring', stiffness: 300 } }}
+              viewport={{ once: true }}
+            >
               <Play className="mr-2 h-5 w-5" /> Start with Basics
-            </button>
-            <button className="px-8 py-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center">
+            </motion.button>
+            <motion.button
+              className="px-8 py-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-lg font-medium flex items-center justify-center"
+              initial={{ scale: 0.5, opacity: 0 }}
+              whileInView={{
+                scale: 1,
+                opacity: 1,
+                transition: { duration: 0.4, delay: 0.7 },
+              }}
+              whileHover={{ scale: 1.03, transition: { delay: 0, type: 'spring', stiffness: 300 } }}
+              viewport={{ once: true }}
+            >
               <BookOpen className="mr-2 h-5 w-5" /> Browse All Tutorials
-            </button>
+            </motion.button>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </section>
     </div>
   );
 };
