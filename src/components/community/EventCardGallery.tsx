@@ -141,10 +141,10 @@ export const EventCardGallery: React.FC<EventCardGalleryProps> = ({ size = 'defa
           {upcomingEvents.map((event, index) => (
             <motion.div
               key={index}
-              initial={{ x: 20, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.2, delay: 0.4 + index * 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
             >
               <EventCardGalleryItem event={event} followedAttendees={followedAttendees} />
             </motion.div>

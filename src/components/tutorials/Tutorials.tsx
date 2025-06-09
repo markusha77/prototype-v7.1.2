@@ -115,6 +115,7 @@ const howTouse = [
 ];
 
 const Tutorials = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleTutorialClick = (videoId: string, title: string) => {
     // Convert Google Drive share link to direct view URL and open in new tab
     const getDirectUrl = (id: string) => {
